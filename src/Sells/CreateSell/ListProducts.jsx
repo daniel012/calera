@@ -14,7 +14,7 @@ const ListProducts = (props) => {
         <tr>
         <td>Peter</td>
         <td>Griffin</td>
-        <td>$100</td>
+        <td><img src="/delete.svg" alt='delte record'/></td>
         </tr>
         <tr>
         <td>Lois</td>
