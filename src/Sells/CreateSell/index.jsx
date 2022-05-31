@@ -1,19 +1,25 @@
 import * as React from 'react';
 import ListProducts from './ListProducts';
-import { tableStyles } from'../indexClassName';
-
+import { CreateSellStyle } from'../indexClassName';
+import SearchClient from './searchClient';
 
 const CreateSell = () => {
     const [amount, setAmount] = React.useState(0);
     const [product, setProduct] = React.useState('');
     const [list, setList] = React.useState([]);
+    const [client, setClient] = React.useState('');
+
     const submitFrom = (event) => {
         event.preventDefault();
-        setList([...list, {
-            amount, 
-            product
-        }]);
-        initState();
+        if(list.filter(ele => ele.product === product).length !== 0){
+            alert('producto repetido');
+        } else {
+            setList([...list, {
+                amount, 
+                product
+            }]);
+            initState();
+        }        
     }
 
     const initState = () => {
@@ -26,9 +32,16 @@ const CreateSell = () => {
         oldList.splice(idx,1);
         setList(oldList);
     }
-    const className = tableStyles();
+    const onComplete = () => {
+        alert('guapo terminamos');
+    }
+    const className = CreateSellStyle();
     return(
-    <>
+    <div>
+        <SearchClient 
+            onSearchClientCallBack={setClient}
+            client={client}
+        />
         <form onSubmit={submitFrom}>
         <div className={className.containerButton}>
             <label htmlFor='product'>Producto:</label>
@@ -39,7 +52,15 @@ const CreateSell = () => {
         </div>
         </form>
         <ListProducts list={list} deleteCallBack={deleteCallBack} />
-    </>
+        <button 
+            type='submit'
+            disabled={list.length === 0}
+            onClick={onComplete}
+            className={className.completeButton}
+        >
+            completar
+        </button>
+    </div>
     );
 }
 

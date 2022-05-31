@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { tableStyles } from'../indexClassName';
+import { CreateSellStyle } from'../indexClassName';
 
 const ListProducts = (props) => {
- const className = tableStyles();
+ const className = CreateSellStyle();
  if (!props.list || props.list.length === 0) {
     return <></>
  }

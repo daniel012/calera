@@ -1,6 +1,6 @@
 import {createUseStyles} from 'react-jss'
 
-export const tableStyles =  createUseStyles({
+export const CreateSellStyle =  createUseStyles({
     containerButton:{
         display: 'flex',
         marginLeft: '40px',
@@ -28,5 +28,16 @@ export const tableStyles =  createUseStyles({
     },
     icon: {
         cursor: 'pointer',
-    }
+    },
+    completeButton: {
+        margin: '10px 0',
+    },
+    displayClient: {
+        display: 'flex',
+        paddingLeft: '40px',
+        paddingTop: '10px',
+        '& img':{
+            paddingLeft: '14px',
+        }
+    },
 });
