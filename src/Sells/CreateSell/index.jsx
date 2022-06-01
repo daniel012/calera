@@ -8,15 +8,19 @@ const CreateSell = () => {
     const [product, setProduct] = React.useState('');
     const [list, setList] = React.useState([]);
     const [client, setClient] = React.useState('');
+    const [payment, setPayment] = React.useState(0);
 
     const submitFrom = (event) => {
         event.preventDefault();
         if(list.filter(ele => ele.product === product).length !== 0){
             alert('producto repetido');
         } else {
+            const unitPrice = Math.floor(Math.random() * 1000);
             setList([...list, {
-                amount, 
-                product
+                amount: Number(amount), 
+                product,
+                unitPrice, 
+                price: (unitPrice * amount).toFixed(2)
             }]);
             initState();
         }        
@@ -52,9 +56,18 @@ const CreateSell = () => {
         </div>
         </form>
         <ListProducts list={list} deleteCallBack={deleteCallBack} />
+        <div className={className.containerButton}>
+            <label htmlFor='payment'>Abono a capital:</label>
+            <input
+                type={'text'}
+                id='payment'
+                value={payment}
+                onChange={(evt)=> setPayment(evt.target.value)}
+            />
+        </div>
         <button 
             type='submit'
-            disabled={list.length === 0}
+            disabled={list.length === 0 || !client}
             onClick={onComplete}
             className={className.completeButton}
         >

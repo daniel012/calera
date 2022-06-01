@@ -26,6 +26,10 @@ export const CreateSellStyle =  createUseStyles({
         backgroundColor: '#D6EEEE'
         },
     },
+    totalPrice:{
+        marginTop: '10px',
+        fontWeight: 'bold'
+    },
     icon: {
         cursor: 'pointer',
     },
