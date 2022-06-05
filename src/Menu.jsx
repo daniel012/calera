@@ -5,6 +5,7 @@ import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css';
 import Reports from './Reports';
 import Sells from './Sells';
+import Inventory from './Inventory';
 
 const TestTabs = () => (
   <Tabs direction='ltr'>
@@ -22,7 +23,7 @@ const TestTabs = () => (
       <Sells />
     </TabPanel>
     <TabPanel>
-      <h2>Any content 3</h2>
+      <Inventory />
     </TabPanel>
     <TabPanel>
       <h2>Any content 4</h2>

@@ -45,3 +45,48 @@ export const CreateSellStyle =  createUseStyles({
         }
     },
 });
+
+export const SearchSellStyle =  createUseStyles({
+    containerButton:{
+        display: 'flex',
+        marginLeft: '40px',
+        marginTop: '20px',
+        '& input': {
+            margin: '0px 10px',
+        }
+    },
+    displayClient: {
+        display: 'flex',
+        paddingLeft: '40px',
+        paddingTop: '10px',
+        '& img':{
+            paddingLeft: '14px',
+        }
+    },
+    wrap:{
+        maxWidth: '1000px',
+        padding: '20px 40px',
+        maxHeight: '300px',
+        overflowY: 'scroll'
+    },
+    principal: {
+        borderCollapse: 'collapse',
+        width: '100%',
+        '& th, td': {
+        textAlign: 'left',
+        padding: '8px',
+        },
+        '& tr:nth-child(even)': {
+        backgroundColor: '#D6EEEE'
+        },
+    },
+    totalPrice:{
+        display:'flex',
+        marginTop: '10px',
+        paddingLeft: '40px',
+        textAlign:'left',
+        '& span':{
+            fontWeight: 'bold',
+        }
+    }
+});
