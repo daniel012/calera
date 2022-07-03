@@ -6,6 +6,7 @@ import 'react-date-range/dist/theme/default.css';
 import Reports from './Reports';
 import Sells from './Sells';
 import Inventory from './Inventory';
+import Admin from './Admin/index';
 
 const TestTabs = () => (
   <Tabs direction='ltr'>
@@ -26,7 +27,7 @@ const TestTabs = () => (
       <Inventory />
     </TabPanel>
     <TabPanel>
-      <h2>Any content 4</h2>
+      <Admin />
     </TabPanel>
   </Tabs>
 );
