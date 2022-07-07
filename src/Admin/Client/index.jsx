@@ -2,6 +2,7 @@ import * as React from 'react';
 import axios from 'axios';
 import { clientStyle } from '../indexClassName';
 import PhoneInput from 'react-phone-input-2';
+import { url } from '../../utils';
 
 const Client = () => {
     const [phone, setPhone] = React.useState('52');
@@ -11,13 +12,10 @@ const Client = () => {
     const className = clientStyle(); 
     const submitFrom = (event) => {
         event.preventDefault();
-
-        console.log('alto');
-
         if(phone.toString().length !== 12){
             alert('numero incorrecto');
         } else {
-            axios.post('http://192.168.0.191:5000/client',{            
+            axios.post(`${url}/client`,{            
                 "correo": event.target[3].value,
                 "correoAgente": infoAgent[4],
                 "nombre": event.target[0].value,
@@ -40,7 +38,7 @@ const Client = () => {
         }
     } 
     const searchAgent = () => {
-        axios.get('http://192.168.0.191:5000/agent/'+agent).then((value)=> {
+        axios.get(`${url}/agent/${agent}`).then((value)=> {
             if(value.data.length !== 0){
                 setInfoAgent(value.data[0]);
             } else {
