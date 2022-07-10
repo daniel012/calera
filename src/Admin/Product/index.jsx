@@ -9,7 +9,9 @@ const Product = () => {
     const [name, setName] = React.useState('');
     const [description, setDescription] = React.useState('');
     const [amount, setAmount] = React.useState(0);
+    const prevAmount = React.useRef(0);
     const [id, setId] = React.useState('');
+    const [dateChange, setDateChange] = React.useState(new Date());
 
 
     const className = clientStyle(); 
@@ -27,6 +29,8 @@ const Product = () => {
         setDescription('');
         setAmount(0);  
         setId('');
+        setDateChange(new Date());
+        prevAmount.current = 0;
     }
 
     const showError = (type, error) => {
@@ -42,7 +46,7 @@ const Product = () => {
 
     const submitFrom = (event) => {
         event.preventDefault();        
-
+        
     
         if( !id ) {
             axios.post(`${url}/product`,{
@@ -50,20 +54,38 @@ const Product = () => {
                 name,
                 description, 
                 amount,
+                'fecha': dateChange,
                 'real_amount': amount
                 })
                 .then(()=> showSuccess('insert'))
                 .catch((e)=> showError('insert', e));
         } else {
-            axios.put(`${url}/product/${id}`,{
-                code,
-                name,
-                description, 
-                amount,
-                'real_amount': amount
-                })
-                .then(()=> showSuccess('put'))
-                .catch((e)=> showError('put', e));
+            let isOk = true;
+            let changePayload = {};
+            
+            if(prevAmount.current !== amount){
+                // eslint-disable-next-line no-restricted-globals
+                isOk= confirm(`Modificando la existencia de ${name}, ¿Continuar?`);
+                changePayload = {
+                    isIngreso: prevAmount.current > amount?0:1,
+                    difference: Math.abs(prevAmount.current - amount),
+                    fecha: dateChange,
+                }
+            }
+            
+            if(isOk){
+                axios.put(`${url}/product/${id}`,{
+                    code,
+                    name,
+                    description, 
+                    amount,
+                    'real_amount': amount,
+                    fecha: null,
+                    ...changePayload
+                    })
+                    .then(()=> showSuccess('put'))
+                    .catch((e)=> showError('put', e));
+            }
         }
         
     } 
@@ -78,6 +100,7 @@ const Product = () => {
                     setDescription(value.data[0].description);
                     setAmount(value.data[0].amount);
                     setId(value.data[0].id);
+                    prevAmount.current = value.data[0].amount;
                 } else {
                     setId('');
                 }
@@ -113,6 +136,10 @@ const Product = () => {
             <div>
                 <label htmlFor='productAmount' >Existencia: </label>
                 <input type={'number'} required id='productAmount' min={0}  value={amount} onChange={(evt)=> setAmount(evt.target.value)}/>
+            </div>
+            <div>
+                <label htmlFor='dateChange' >fecha de modificacion: </label>
+                <input type={'date'} required={prevAmount.current !== amount} id='dateChange' min={0}  value={dateChange} onChange={(evt)=> setDateChange(evt.target.value)}/>
             </div>
             <button>{id?'Editar':'Agregar'}</button>
         </form>

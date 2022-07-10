@@ -1,4 +1,8 @@
 import * as React from 'react';
+//import axios from 'axios';
+//import { url } from '../../utils';
+// import { toast } from 'react-toastify';
+
 import { Principal } from './indexClassName';
 
 const Inventory = () => {

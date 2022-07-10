@@ -12,7 +12,9 @@ export const clientStyle =  createUseStyles({
         },
         '& div label':{
             width: '100px',
-            display: 'inline-flex'
+            display: 'inline-flex',
+            textAlign: 'left'
+
         },
         '& div input':{
             width: '194px',
