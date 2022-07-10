@@ -12,6 +12,8 @@ const Product = () => {
     const prevAmount = React.useRef(0);
     const [id, setId] = React.useState('');
     const [dateChange, setDateChange] = React.useState(new Date());
+    const [productPrice, setProductPrice] = React.useState(0);
+
 
 
     const className = clientStyle(); 
@@ -30,6 +32,7 @@ const Product = () => {
         setAmount(0);  
         setId('');
         setDateChange(new Date());
+        setProductPrice(0);
         prevAmount.current = 0;
     }
 
@@ -47,15 +50,18 @@ const Product = () => {
     const submitFrom = (event) => {
         event.preventDefault();        
         
-    
+        const payload = {
+            code,
+            name,
+            description, 
+            amount,
+            productPrice,
+            'real_amount': amount
+        }
         if( !id ) {
             axios.post(`${url}/product`,{
-                code,
-                name,
-                description, 
-                amount,
+                 ...payload,
                 'fecha': dateChange,
-                'real_amount': amount
                 })
                 .then(()=> showSuccess('insert'))
                 .catch((e)=> showError('insert', e));
@@ -75,11 +81,7 @@ const Product = () => {
             
             if(isOk){
                 axios.put(`${url}/product/${id}`,{
-                    code,
-                    name,
-                    description, 
-                    amount,
-                    'real_amount': amount,
+                    ...payload,
                     fecha: null,
                     ...changePayload
                     })
@@ -100,6 +102,7 @@ const Product = () => {
                     setDescription(value.data[0].description);
                     setAmount(value.data[0].amount);
                     setId(value.data[0].id);
+                    setProductPrice(value.data[0].productPrice);
                     prevAmount.current = value.data[0].amount;
                 } else {
                     setId('');
@@ -136,6 +139,10 @@ const Product = () => {
             <div>
                 <label htmlFor='productAmount' >Existencia: </label>
                 <input type={'number'} required id='productAmount' min={0}  value={amount} onChange={(evt)=> setAmount(evt.target.value)}/>
+            </div>
+            <div>
+                <label htmlFor='productPrice' >Precio sugerido de venta: </label>
+                <input type={'number'} required id='productPrice' step={0.1} min={0}  value={productPrice} onChange={(evt)=> setProductPrice(evt.target.value)}/>
             </div>
             <div>
                 <label htmlFor='dateChange' >fecha de modificacion: </label>

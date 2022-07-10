@@ -3,7 +3,8 @@ import ListProducts from './ListProducts';
 import { CreateSellStyle } from'../indexClassName';
 import SearchClient from './searchClient';
 import { toast } from 'react-toastify';
-
+import { url } from '../../utils';
+import axios from 'axios';
 
 const CreateSell = () => {
     const [amount, setAmount] = React.useState(0);
@@ -23,14 +24,36 @@ const CreateSell = () => {
                 hideProgressBar: true
             });
         } else {
-            const unitPrice = Math.floor(Math.random() * 1000);
-            setList([...list, {
-                amount: Number(amount), 
-                product,
-                unitPrice, 
-                price: (unitPrice * amount).toFixed(2)
-            }]);
-            initState();
+            axios.get(`${url}/product/${product}`)
+                .then((value)=> {
+                    if(value.status === 200){
+                        setList([...list, {
+                            amount: Number(amount), 
+                            product:value.data[0].name,
+                            unitPrice: 123, 
+                            price: 123
+                        }]);
+                        initState();
+                    }else if(value.status === 204){
+                        toast(`el producto ${product} no se encuentra`,{
+                            position: 'top-center',
+                            type: 'warning',
+                            theme: 'colored',
+                            closeOnClick: true,
+                            hideProgressBar: true
+                        });
+                    }
+                })
+                .catch((error)=> {
+                    toast(`contacta al administrador`,{
+                        position: 'top-center',
+                        type: 'error',
+                        theme: 'colored',
+                        closeOnClick: true,
+                        hideProgressBar: true
+                    });
+                    console.error(error);
+                });            
         }        
     }
 
