@@ -5,6 +5,7 @@ import { url } from '../../utils';
 import { toast } from 'react-toastify';
 
 const Product = () => {
+    const [code, setCode] = React.useState('');
     const [name, setName] = React.useState('');
     const [description, setDescription] = React.useState('');
     const [amount, setAmount] = React.useState(0);
@@ -21,6 +22,7 @@ const Product = () => {
             hideProgressBar: true
         });
 
+        setCode('');
         setName('');
         setDescription('');
         setAmount(0);  
@@ -44,6 +46,7 @@ const Product = () => {
     
         if( !id ) {
             axios.post(`${url}/product`,{
+                code,
                 name,
                 description, 
                 amount,
@@ -53,6 +56,7 @@ const Product = () => {
                 .catch((e)=> showError('insert', e));
         } else {
             axios.put(`${url}/product/${id}`,{
+                code,
                 name,
                 description, 
                 amount,
@@ -69,6 +73,7 @@ const Product = () => {
             axios.get(`${url}/product/${evt.target.value}`)
             .then((value)=>{
                 if(value.status === 200 ) {
+                    setCode(value.data[0].code);
                     setName(value.data[0].name);
                     setDescription(value.data[0].description);
                     setAmount(value.data[0].amount);
@@ -92,8 +97,13 @@ const Product = () => {
     return(
         <form  onSubmit={submitFrom} className={className.container}>
             <div>
-                <label htmlFor='productName' >Nombre: </label>
+                <label htmlFor='code' >Codigo: </label>
                 <input type={'string'}  onBlur={searchPrevProduct}
+                required value={code} onChange={(evt)=> setCode(evt.target.value)}/>
+            </div>
+            <div>
+                <label htmlFor='productName' >Nombre: </label>
+                <input type={'string'} 
                 required value={name} onChange={(evt)=> setName(evt.target.value)}/>
             </div>
             <div>
