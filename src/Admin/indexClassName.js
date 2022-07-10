@@ -18,7 +18,8 @@ export const clientStyle =  createUseStyles({
             width: '194px',
             border: '1px solid #CACACA',
             borderRadius: '5px',
-            height: '31px'
+            height: '31px',
+            paddingLeft: '10px'
         }
     },
     inputNumberContainer: {

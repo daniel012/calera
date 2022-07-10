@@ -52,6 +52,7 @@ const Client = () => {
         setName('');
         setRFC('');
         setEmail('');
+        setId('');
     }
 
     const submitFrom = (event) => {
@@ -132,19 +133,22 @@ const Client = () => {
     const delteAgent = () => {setInfoAgent(''); setAgent('');}
 
     const searchClient = () => {
-        axios.get(`${url}/client/${email}`)
-        .then((value)=> {
-            if(value.status === 200){
-                setName(value.data[0].nombre);
-                setRFC(value.data[0].rfc);
-                setPhone(value.data[0].telefono);
-                setEmail(value.data[0].correo);
-                setInfoAgent(value.data[0].agente);
-                setId(value.data[0].id);
-            } 
-        }).catch((error)=> {
-            console.error('error: ',error);
-        });
+        if(email) {
+
+            axios.get(`${url}/client/${email}`)
+            .then((value)=> {
+                if(value.status === 200){
+                    setName(value.data[0].nombre);
+                    setRFC(value.data[0].rfc);
+                    setPhone(value.data[0].telefono);
+                    setEmail(value.data[0].correo);
+                    setInfoAgent(value.data[0].agente);
+                    setId(value.data[0].id);
+                } 
+            }).catch((error)=> {
+                console.error('error: ',error);
+            });
+        }
     }
 
     return(

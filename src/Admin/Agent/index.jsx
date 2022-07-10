@@ -27,7 +27,7 @@ const Agent = () => {
         setEmail('');
         setAddress('');
         setPhone('52');
-    
+        setId('');
         
     }
 
@@ -77,27 +77,29 @@ const Agent = () => {
     } 
 
     const searchPrevAgent = (evt) => {
-        axios.get(`${url}/agent/${evt.target.value}`)
-        .then((value)=>{
-            if(value.status === 200 ) {
-                setName(value.data[0].name);
-                setEmail(value.data[0].email);
-                setPhone(value.data[0].number);
-                setAddress(value.data[0].address);
-                setId(value.data[0].id);
-            } else {
-                setId('');
-            }
-        }).catch((error)=>{
-            toast(`Error desconocido, contacta al administrador`,{
-                position: 'top-center',
-                type: 'error',
-                theme: 'colored',
-                closeOnClick: true,
-                hideProgressBar: true
+        if(evt.target.value) {
+            axios.get(`${url}/agent/${evt.target.value}`)
+            .then((value)=>{
+                if(value.status === 200 ) {
+                    setName(value.data[0].name);
+                    setEmail(value.data[0].email);
+                    setPhone(value.data[0].number);
+                    setAddress(value.data[0].address);
+                    setId(value.data[0].id);
+                } else {
+                    setId('');
+                }
+            }).catch((error)=>{
+                toast(`Error desconocido, contacta al administrador`,{
+                    position: 'top-center',
+                    type: 'error',
+                    theme: 'colored',
+                    closeOnClick: true,
+                    hideProgressBar: true
+                });
+                console.error('error: ', error);
             });
-            console.error('error: ', error);
-        });
+        }
     }
 
     return(
