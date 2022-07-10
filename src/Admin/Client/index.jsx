@@ -3,6 +3,7 @@ import axios from 'axios';
 import { clientStyle } from '../indexClassName';
 import PhoneInput from 'react-phone-input-2';
 import { url } from '../../utils';
+import { toast } from 'react-toastify';
 
 const Client = () => {
     const [phone, setPhone] = React.useState('52');
@@ -13,11 +14,17 @@ const Client = () => {
     const submitFrom = (event) => {
         event.preventDefault();
         if(phone.toString().length !== 12){
-            alert('numero incorrecto');
+            toast('Numero incorrecto',{
+                position: 'top-center',
+                type: 'warning',
+                theme: 'colored',
+                closeOnClick: true,
+                hideProgressBar: true
+            });
         } else {
             axios.post(`${url}/client`,{            
                 "correo": event.target[3].value,
-                "correoAgente": infoAgent[4],
+                "correoAgente": infoAgent.email,
                 "nombre": event.target[0].value,
                 "rfc":event.target[1].value,
                 "telefono":phone
@@ -26,12 +33,30 @@ const Client = () => {
                 setInfoAgent('');
                 setAgent('');
                 setPhone('52');
-                alert('usuario insertado');
+                toast(`Usuario ${event.target[0].value} insertado`,{
+                    position: 'top-center',
+                    type: 'success',
+                    theme: 'colored',
+                    closeOnClick: true,
+                    hideProgressBar: true
+                });
             }).catch((error)=> {
                 if(error.response.status === 409){
-                    alert('usuario ya existe');
+                    toast(`Usuario ${event.target[0].value} ya existe`,{
+                        position: 'top-center',
+                        type: 'warning',
+                        theme: 'colored',
+                        closeOnClick: true,
+                        hideProgressBar: true
+                    });
                 }else {
-                    alert('error desconcido contacte al administrador');
+                    toast(`${error.response.status} Error, contacte al administrador`,{
+                        position: 'top-center',
+                        type: 'error',
+                        theme: 'colored',
+                        closeOnClick: true,
+                        hideProgressBar: true
+                    });
                 }
                 console.error('error: ',error);
             });
@@ -42,10 +67,23 @@ const Client = () => {
             if(value.data.length !== 0){
                 setInfoAgent(value.data[0]);
             } else {
-                alert('correo no encontrado');
+                toast('Correo no encontrado',{
+                    position: 'top-center',
+                    type: 'warning',
+                    theme: 'colored',
+                    closeOnClick: true,
+                    hideProgressBar: true
+                });
             }
         }).catch((error)=> {
-            console.log('este es un error: ', error);
+            toast('Error en busqueda de agente',{
+                position: 'top-center',
+                type: 'warning',
+                theme: 'colored',
+                closeOnClick: true,
+                hideProgressBar: true
+            });
+            console.error('error: ', error);
         });
 
     }
@@ -72,7 +110,7 @@ const Client = () => {
                 }}>
                     <label style={{
                         width: 'fit-content'
-                    }}>{infoAgent[4]}</label>
+                    }}>{infoAgent.email}</label>
                     <img alt='delete client' src="/delete.svg" onClick={delteAgent}></img>
                 </div>
             )}
@@ -101,7 +139,6 @@ const Client = () => {
                     }}
                     value={phone}
                     onChange={(newPhone) => {
-                        console.log('newPhone: ', phone);
                         setPhone(newPhone);
                     }}
                 />

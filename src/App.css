@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  padding: 30px;
 }
 
 .App-logo {
@@ -39,4 +40,19 @@
 
 .rdrDefinedRangesWrapper {
   display: none;
+}
+
+
+.react-tabs__tab-list {
+  display: flex;
+  flex-direction: row;
+}
+
+.react-tabs__tab--selected {
+  border: 0px !important;
+  border-bottom: 4px solid #6eb800 !important;
+}
+
+.react-tabs__tab--selected:focus::after {
+  content: none !important;
 }

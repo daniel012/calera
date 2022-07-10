@@ -2,6 +2,8 @@ import * as React from 'react';
 import ListProducts from './ListProducts';
 import { CreateSellStyle } from'../indexClassName';
 import SearchClient from './searchClient';
+import { toast } from 'react-toastify';
+
 
 const CreateSell = () => {
     const [amount, setAmount] = React.useState(0);
@@ -13,7 +15,13 @@ const CreateSell = () => {
     const submitFrom = (event) => {
         event.preventDefault();
         if(list.filter(ele => ele.product === product).length !== 0){
-            alert('producto repetido');
+            toast(`Producto ${product}  repetido`,{
+                position: 'top-center',
+                type: 'warning',
+                theme: 'colored',
+                closeOnClick: true,
+                hideProgressBar: true
+            });
         } else {
             const unitPrice = Math.floor(Math.random() * 1000);
             setList([...list, {

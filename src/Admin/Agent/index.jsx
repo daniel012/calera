@@ -3,43 +3,117 @@ import axios from 'axios';
 import PhoneInput from 'react-phone-input-2';
 import { clientStyle } from '../indexClassName';
 import { url } from '../../utils';
+import { toast } from 'react-toastify';
 
 const Agent = () => {
     const [phone, setPhone] = React.useState('52');
+    const [name, setName] = React.useState('');
+    const [address, setAddress] = React.useState('');
+    const [email, setEmail] = React.useState('');
+    const [id, setId] = React.useState('');
+
 
     const className = clientStyle(); 
-    const submitFrom = (event) => {
-        event.preventDefault();
-        console.log('aqui: ', phone);
-        
+    const showSuccess = (type) => {
+        toast(`Agente ${name} ${type === 'insert'? 'creado':'actualizado'}`,{
+            position: 'top-center',
+            type: 'success',
+            theme: 'colored',
+            closeOnClick: true,
+            hideProgressBar: true
+        });
 
-        if(phone.toString().length !== 12){
-            alert('numero incorrecto');
+        setName('');
+        setEmail('');
+        setAddress('');
+        setPhone('52');
+    
+        
+    }
+
+    const showError = (type, error) => {
+        toast(`No se pudo crear al ${type === 'insert'? 'insertar':'actualizar'} contacta al administrador`,{
+            position: 'top-center',
+            type: 'error',
+            theme: 'colored',
+            closeOnClick: true,
+            hideProgressBar: true
+        });
+        console.error(error);
+    }
+
+    const submitFrom = (event) => {
+        event.preventDefault();        
+
+        if(phone.toString().length !== 12){   
+            toast('Numero incorrecto',{
+                position: 'top-center',
+                type: 'warning',
+                theme: 'colored',
+                closeOnClick: true,
+                hideProgressBar: true
+            });
         } else {
-            axios.post(`${url}/agent`,{
-                "name": event.target[0].value,
-                "address": event.target[1].value,
-                "phone": event.target[2].value,
-                "email": event.target[3].value
-                }).then(()=>{
-                    alert('opa');
-                    event.target.reset();
-                    setPhone('52');
-                }).catch((e)=> {
-                    alert('ora');
-                    console.error(e);
-                });
+            if( !id ) {
+                axios.post(`${url}/agent`,{
+                    name,
+                    address, 
+                    email,
+                    phone
+                    })
+                    .then(()=> showSuccess('insert'))
+                    .catch((e)=> showError('insert', e));
+            } else {
+                axios.put(`${url}/agent/${id}`,{
+                    name,
+                    address, 
+                    email,
+                    phone
+                    })
+                    .then(()=> showSuccess('put'))
+                    .catch((e)=> showError('put', e));
+            }
         }
     } 
+
+    const searchPrevAgent = (evt) => {
+        axios.get(`${url}/agent/${evt.target.value}`)
+        .then((value)=>{
+            if(value.status === 200 ) {
+                setName(value.data[0].name);
+                setEmail(value.data[0].email);
+                setPhone(value.data[0].number);
+                setAddress(value.data[0].address);
+                setId(value.data[0].id);
+            } else {
+                setId('');
+            }
+        }).catch((error)=>{
+            toast(`Error desconocido, contacta al administrador`,{
+                position: 'top-center',
+                type: 'error',
+                theme: 'colored',
+                closeOnClick: true,
+                hideProgressBar: true
+            });
+            console.error('error: ', error);
+        });
+    }
+
     return(
         <form  onSubmit={submitFrom} className={className.container}>
             <div>
+                <label htmlFor='agentEmail' >Correo: </label>
+                <input type={'email'}  onBlur={searchPrevAgent}
+                required id='agentEmail' value={email} onChange={(evt)=> setEmail(evt.target.value)}/>
+            </div>
+            <div>
                 <label htmlFor='agentName' >Nombre: </label>
-                <input type={'text'} required id='agentName' />
+                <input type={'text'} required id='agentName' value={name} onChange={(evt)=> setName(evt.target.value)} />
             </div>
             <div>
                 <label htmlFor='agentAddress' >Direccion: </label>
-                <input type={'text'} required id='agentAddress' />
+                <input type={'text'} required id='agentAddress'  value={address} onChange={(evt)=> setAddress(evt.target.value)}/>
             </div>
             <div className={className.inputNumberContainer}>
                 <label htmlFor='agentNumber' >Telefono: </label>
@@ -57,16 +131,11 @@ const Agent = () => {
                     }}
                     value={phone}
                     onChange={(newPhone) => {
-                        console.log('newPhone: ', phone);
                         setPhone(newPhone);
                     }}
                 />
             </div>
-            <div>
-                <label htmlFor='agentEmail' >Correo: </label>
-                <input type={'email'} required id='agentEmail' />
-            </div>
-            <button>Agregar</button>
+            <button>{id?'Editar':'Agregar'}</button>
         </form>
     )
 }
