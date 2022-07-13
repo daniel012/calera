@@ -3,7 +3,7 @@ import ListProducts from './ListProducts';
 import { CreateSellStyle } from'../indexClassName';
 import SearchClient from './searchClient';
 import { toast } from 'react-toastify';
-import { url } from '../../utils';
+import { url, basicErrorToast } from '../../utils';
 import axios from 'axios';
 
 const CreateSell = () => {
@@ -12,6 +12,7 @@ const CreateSell = () => {
     const [list, setList] = React.useState([]);
     const [client, setClient] = React.useState('');
     const [payment, setPayment] = React.useState(0);
+    const timeOut = React.useRef(undefined);
 
     const submitFrom = (event) => {
         event.preventDefault();
@@ -44,16 +45,7 @@ const CreateSell = () => {
                         });
                     }
                 })
-                .catch((error)=> {
-                    toast(`contacta al administrador`,{
-                        position: 'top-center',
-                        type: 'error',
-                        theme: 'colored',
-                        closeOnClick: true,
-                        hideProgressBar: true
-                    });
-                    console.error(error);
-                });            
+                .catch((error)=> basicErrorToast(error));            
         }        
     }
 
@@ -70,6 +62,35 @@ const CreateSell = () => {
     const onComplete = () => {
         alert('guapo terminamos');
     }
+
+    const searchProduct = (evt) => {
+        const inputValue = evt.target.value;
+        setProduct(inputValue);
+
+        if(timeOut.current) {
+            clearTimeout(timeOut.current);
+            timeOut.current = undefined;
+        }
+
+        if(inputValue) {
+            timeOut.current = setTimeout(()=> {
+                console.log('estamos buscando');
+                if(timeOut.current) {
+                    timeOut.current = undefined;
+                }
+                axios.get(`${url}/product/${inputValue}`)
+                    .then((value)=> {
+                        if(value.status !== 204) {
+                            console.log('pape aqui estamos: ', value.data);
+                        }
+                    })
+                    .catch((error) => basicErrorToast(error));
+                setProduct(inputValue);
+            },400);
+        }
+        
+    }
+
     const className = CreateSellStyle();
     return(
     <div>
@@ -79,8 +100,8 @@ const CreateSell = () => {
         />
         <form onSubmit={submitFrom}>
         <div className={className.containerButton}>
-            <label htmlFor='product'>Producto:</label>
-            <input id='product' onChange={(evt) => { setProduct(evt.target.value)}} value={product} />
+            <label htmlFor='product'>Codigo de producto:</label>
+            <input id='product' onChange={searchProduct} value={product} />
             <label htmlFor='amount'>Cantidad:</label>
             <input type={'number'} id="amount" min={1} step={0.1} value={amount} onChange={(evt) =>{ setAmount(evt.target.value)}} />
             <button type='submit'disabled={!amount|| !product} >Agregar</button>
