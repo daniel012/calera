@@ -26,7 +26,7 @@ const ListProducts = (props) => {
                         <td>{product}</td>
                         <td>{amount}</td>
                         <td>{unitPrice}</td>
-                        <td>{price}</td>
+                        <td>$ {price}</td>
                         <td>
                             <img 
                             src="/delete.svg"
@@ -40,7 +40,7 @@ const ListProducts = (props) => {
         </table>
     </div>
     <div className={className.totalPrice}>
-        <label>Total:  {totalPrice}</label>
+        <label>Total: $ {totalPrice}</label>
     </div>
     </>
  )   

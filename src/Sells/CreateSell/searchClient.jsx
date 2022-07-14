@@ -51,7 +51,7 @@ const SearchClient =( props) => {
     } 
     return(
         <form onSubmit={onSearch}>
-            <div className={className.containerButton}>
+            <div className={className.searchClient}>
                 <label htmlFor='searchClient'>Cliente:</label>
                 <input type={'email'} id='searchClient' required />
                 <button type='submit'>Buscar</button>

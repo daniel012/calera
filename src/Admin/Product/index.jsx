@@ -145,7 +145,7 @@ const Product = () => {
                 <input type={'number'} required id='productPrice' step={0.1} min={0}  value={productPrice} onChange={(evt)=> setProductPrice(evt.target.value)}/>
             </div>
             <div>
-                <label htmlFor='dateChange' >fecha de modificacion: </label>
+                <label htmlFor='dateChange' >Fecha de modificacion: </label>
                 <input type={'date'} required={prevAmount.current !== amount} id='dateChange' min={0}  value={dateChange} onChange={(evt)=> setDateChange(evt.target.value)}/>
             </div>
             <button>{id?'Editar':'Agregar'}</button>

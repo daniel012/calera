@@ -3,17 +3,56 @@ import {createUseStyles} from 'react-jss'
 export const CreateSellStyle =  createUseStyles({
     containerButton:{
         display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
         marginLeft: '40px',
         marginTop: '20px',
         '& input': {
             margin: '0px 10px',
+            width: '194px',
+            border: '1px solid #CACACA',
+            borderRadius: '5px',
+            height: '31px',
+            paddingLeft: '10px'
+        },
+        '& div':{
+            padding: '5px 0',
+        },
+        '& div label':{
+            width: '100px',
+            display: 'inline-flex',
+            textAlign: 'left'
+
+        },
+        '& div input':{
+            width: '194px',
+            border: '1px solid #CACACA',
+            borderRadius: '5px',
+            height: '31px',
+            paddingLeft: '10px'
+        }
+    },
+    searchClient: {
+        display: 'flex',
+        marginLeft: '40px',
+        marginTop: '20px',
+        '& input': {
+            margin: '0px 10px',
+            width: '194px',
+            border: '1px solid #CACACA',
+            borderRadius: '5px',
+            height: '31px',
+            paddingLeft: '10px'
+        },
+        '& label':{
+            paddingRight: '45px'
         }
     },
     wrap:{
         maxWidth: '1000px',
         padding: '20px 40px',
         maxHeight: '300px',
-        overflowY: 'scroll'
+        overflowY: 'auto'
     },
     principal: {
         borderCollapse: 'collapse',
@@ -27,23 +66,56 @@ export const CreateSellStyle =  createUseStyles({
         },
     },
     totalPrice:{
+        display: 'flex',
         marginTop: '10px',
+        marginLeft: '40px',
         fontWeight: 'bold'
     },
     icon: {
         cursor: 'pointer',
     },
-    completeButton: {
-        margin: '10px 0',
-    },
     displayClient: {
         display: 'flex',
-        paddingLeft: '40px',
-        paddingTop: '10px',
+        width: '382px',
         '& img':{
             paddingLeft: '14px',
         }
     },
+    buttonAdd: {
+        height: '35px',
+        marginTop: '15px',
+    },
+    addPayment: {
+        display: 'flex',
+        marginLeft: '40px',
+        marginTop: '20px',
+        '& input': {
+            margin: '0px 10px',
+            width: '194px',
+            border: '1px solid #CACACA',
+            borderRadius: '5px',
+            height: '31px',
+            paddingLeft: '10px'
+        },
+        '& button': {
+            height: '35px',
+        }
+    },
+    clientAndDate: {
+        display: 'flex',
+        '& div': {
+            marginTop: '20px',
+            marginLeft: '41px'
+        },
+        '& div input': {
+            margin: '0px 10px',
+            width: '194px',
+            border: '1px solid #CACACA',
+            borderRadius: '5px',
+            height: '31px',
+            paddingLeft: '10px'
+        },
+    }
 });
 
 export const SearchSellStyle =  createUseStyles({
@@ -57,8 +129,6 @@ export const SearchSellStyle =  createUseStyles({
     },
     displayClient: {
         display: 'flex',
-        paddingLeft: '40px',
-        paddingTop: '10px',
         '& img':{
             paddingLeft: '14px',
         }

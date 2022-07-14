@@ -12,11 +12,15 @@ const CreateSell = () => {
     const [list, setList] = React.useState([]);
     const [client, setClient] = React.useState('');
     const [payment, setPayment] = React.useState(0);
+    const [price, setPrice] = React.useState(0);
+    const [infoPro, setInfoPro] = React.useState(undefined);
+    const [dateSell, setDateSell] = React.useState(undefined);
     const timeOut = React.useRef(undefined);
 
     const submitFrom = (event) => {
         event.preventDefault();
-        if(list.filter(ele => ele.product === product).length !== 0){
+        console.log('que esta pasadoooo: ', list);
+        if(list.filter(ele => ele.code === infoPro.code).length !== 0){
             toast(`Producto ${product}  repetido`,{
                 position: 'top-center',
                 type: 'warning',
@@ -24,34 +28,34 @@ const CreateSell = () => {
                 closeOnClick: true,
                 hideProgressBar: true
             });
-        } else {
-            axios.get(`${url}/product/${product}`)
-                .then((value)=> {
-                    if(value.status === 200){
-                        setList([...list, {
-                            amount: Number(amount), 
-                            product:value.data[0].name,
-                            unitPrice: 123, 
-                            price: 123
-                        }]);
-                        initState();
-                    }else if(value.status === 204){
-                        toast(`el producto ${product} no se encuentra`,{
-                            position: 'top-center',
-                            type: 'warning',
-                            theme: 'colored',
-                            closeOnClick: true,
-                            hideProgressBar: true
-                        });
-                    }
-                })
-                .catch((error)=> basicErrorToast(error));            
-        }        
-    }
+        } else if(amount > infoPro.amount) {
+            toast(`la canditdad a agregar debe ser menor a la disponible`,{
+                position: 'top-center',
+                type: 'warning',
+                theme: 'colored',
+                closeOnClick: true,
+                hideProgressBar: true
+            });
+        }else {
+            setList([...list, {
+                id: infoPro.id,
+                amount: Number(amount), 
+                product:infoPro.name,
+                code:infoPro.code,
+                unitPrice: Number(price), 
+                price: Number(Number(price)*Number(amount)).toFixed(2)
+            }]);
+            initState();                    
+        }            
+    }        
+    
 
     const initState = () => {
         setAmount(0);
         setProduct('');
+        setInfoPro(undefined);
+        setPrice(0);
+
     }
 
     const deleteCallBack = (idx) => {
@@ -60,7 +64,16 @@ const CreateSell = () => {
         setList(oldList);
     }
     const onComplete = () => {
-        alert('guapo terminamos');
+        console.log('list: ', list);
+        axios.post(`${url}/sell`,{
+            client: client.id,
+            dateSell,
+            payment, 
+            total: list.length === 1 ? list[0].price: list.reduce((a,b)=> parseFloat(a.price)+parseFloat(b.price)), 
+            list
+        })
+            .then((value)=> console.log('se creo venta'))
+            .catch((error) => basicErrorToast(error));
     }
 
     const searchProduct = (evt) => {
@@ -74,41 +87,61 @@ const CreateSell = () => {
 
         if(inputValue) {
             timeOut.current = setTimeout(()=> {
-                console.log('estamos buscando');
                 if(timeOut.current) {
                     timeOut.current = undefined;
                 }
                 axios.get(`${url}/product/${inputValue}`)
                     .then((value)=> {
                         if(value.status !== 204) {
-                            console.log('pape aqui estamos: ', value.data);
+                            setInfoPro(value.data[0]);
+                        }else {
+                            setInfoPro(undefined);
                         }
                     })
                     .catch((error) => basicErrorToast(error));
                 setProduct(inputValue);
             },400);
+        } else {
+            setInfoPro(undefined);
         }
         
     }
-
     const className = CreateSellStyle();
     return(
     <div>
-        <SearchClient 
-            onSearchClientCallBack={setClient}
-            client={client}
-        />
+        <div className={className.clientAndDate}>
+            <SearchClient 
+                onSearchClientCallBack={setClient}
+                client={client}
+            />
+            <div>
+                <label htmlFor='dateSell'>Fecha de venta: </label>
+                <input id='dateSell' type={'date'}  value={dateSell} onChange={(evt)=> setDateSell(evt.target.value)}/>
+            </div>
+        </div>
         <form onSubmit={submitFrom}>
         <div className={className.containerButton}>
-            <label htmlFor='product'>Codigo de producto:</label>
-            <input id='product' onChange={searchProduct} value={product} />
-            <label htmlFor='amount'>Cantidad:</label>
-            <input type={'number'} id="amount" min={1} step={0.1} value={amount} onChange={(evt) =>{ setAmount(evt.target.value)}} />
-            <button type='submit'disabled={!amount|| !product} >Agregar</button>
+            <div>
+                <label htmlFor='product'>Codigo de producto:</label>
+                <input id='product' onChange={searchProduct} value={product} />
+            </div>
+            <div>
+                <label>Precio sugerido: </label>
+                <input disabled  value={infoPro? infoPro.productPrice:0}/>
+                <label>Cantidad disponible: </label>
+                <input disabled  value={infoPro ? infoPro.amount:0}/>
+            </div>
+            <div>
+                <label>Precio unitario: </label>
+                <input type={'number'} min={1} step={0.1} value={price} onChange={(evt)=> setPrice(evt.target.value)}/>
+                <label htmlFor='amount'>Cantidad:</label>
+                <input type={'number'} id="amount" min={1} step={0.1} value={amount} onChange={(evt) =>{ setAmount(evt.target.value)}} />
+            </div>        
+            <button type='submit'disabled={!infoPro || !price || !amount } className={className.buttonAdd} >Agregar</button>
         </div>
         </form>
         <ListProducts list={list} deleteCallBack={deleteCallBack} />
-        <div className={className.containerButton}>
+        <div className={className.addPayment}>
             <label htmlFor='payment'>Abono a capital:</label>
             <input
                 type={'text'}
@@ -116,15 +149,15 @@ const CreateSell = () => {
                 value={payment}
                 onChange={(evt)=> setPayment(evt.target.value)}
             />
+            <button 
+                type='submit'
+                disabled={list.length === 0 || !client || !dateSell}
+                onClick={onComplete}
+            >
+                Completar
+            </button>
         </div>
-        <button 
-            type='submit'
-            disabled={list.length === 0 || !client}
-            onClick={onComplete}
-            className={className.completeButton}
-        >
-            completar
-        </button>
+        
     </div>
     );
 }
