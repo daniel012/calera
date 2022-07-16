@@ -6,20 +6,24 @@ import { toast } from 'react-toastify';
 import { url, basicErrorToast } from '../../utils';
 import axios from 'axios';
 
-const CreateSell = () => {
+const CreateSell = (props) => {
     const [amount, setAmount] = React.useState(0);
     const [product, setProduct] = React.useState('');
     const [list, setList] = React.useState([]);
     const [client, setClient] = React.useState('');
     const [payment, setPayment] = React.useState(0);
+    const [delivered, setDelivered] = React.useState(true);
     const [price, setPrice] = React.useState(0);
     const [infoPro, setInfoPro] = React.useState(undefined);
     const [dateSell, setDateSell] = React.useState(undefined);
+    const [invoice, setInvoice] = React.useState('');
+    const [paymentType, setPaymentType] = React.useState(true);
+
+    
     const timeOut = React.useRef(undefined);
 
     const submitFrom = (event) => {
         event.preventDefault();
-        console.log('que esta pasadoooo: ', list);
         if(list.filter(ele => ele.code === infoPro.code).length !== 0){
             toast(`Producto ${product}  repetido`,{
                 position: 'top-center',
@@ -41,9 +45,11 @@ const CreateSell = () => {
                 id: infoPro.id,
                 amount: Number(amount), 
                 product:infoPro.name,
+                newAmount: infoPro.amount - amount,
                 code:infoPro.code,
                 unitPrice: Number(price), 
-                price: Number(Number(price)*Number(amount)).toFixed(2)
+                price: Number(Number(price)*Number(amount)).toFixed(2),
+                delivered: true,
             }]);
             initState();                    
         }            
@@ -64,16 +70,38 @@ const CreateSell = () => {
         setList(oldList);
     }
     const onComplete = () => {
+        let total = 0; 
+        for(const ele of list) {
+            total += parseFloat(ele.price);
+        }
         console.log('list: ', list);
         axios.post(`${url}/sell`,{
             client: client.id,
             dateSell,
             payment, 
-            total: list.length === 1 ? list[0].price: list.reduce((a,b)=> parseFloat(a.price)+parseFloat(b.price)), 
-            list
+            total, 
+            list,
+            delivered,
+            invoice,
+            paymentType: paymentType? '1': '0'
         })
-            .then((value)=> console.log('se creo venta'))
-            .catch((error) => basicErrorToast(error));
+            .then((value)=> {
+                toast(`se registro la venta`,{
+                    position: 'top-center',
+                    type: 'success',
+                    theme: 'colored',
+                    closeOnClick: true,
+                    hideProgressBar: true
+                })
+                props.onCompleteCallBack();
+            })
+            .catch((error) => {
+                if(error.response.status === 409 && error.response.data === 'FACTURA_REPETIDA') {
+                    basicErrorToast(error,'Factura repetida');
+                } else {
+                    basicErrorToast(error)
+                }
+            });
     }
 
     const searchProduct = (evt) => {
@@ -142,13 +170,42 @@ const CreateSell = () => {
         </form>
         <ListProducts list={list} deleteCallBack={deleteCallBack} />
         <div className={className.addPayment}>
-            <label htmlFor='payment'>Abono a capital:</label>
-            <input
-                type={'text'}
-                id='payment'
-                value={payment}
-                onChange={(evt)=> setPayment(evt.target.value)}
-            />
+            <div>
+                <label htmlFor='delivered'>Productos entregados:</label>
+                <input
+                    type={'checkbox'}
+                    id='delivered'
+                    checked={delivered}
+                    onChange={(evt)=> {console.log(evt); setDelivered(!delivered)}}
+                />
+            </div>
+            <div>
+                <label htmlFor='delivered'>Pago en efectivo:</label>
+                <input
+                    type={'checkbox'}
+                    id='delivered'
+                    checked={paymentType}
+                    onChange={(evt)=> {console.log(evt); setPaymentType(!paymentType)}}
+                />
+            </div>
+            <div>
+                <label htmlFor='invoice'>Numero de factura:</label>
+                <input
+                    type={'text'}
+                    id='invoice'
+                    value={invoice}
+                    onChange={(evt)=> setInvoice(evt.target.value)}
+                />
+            </div>
+            <div>
+                <label htmlFor='payment'>Abono a capital:</label>
+                <input
+                    type={'text'}
+                    id='payment'
+                    value={payment}
+                    onChange={(evt)=> setPayment(evt.target.value)}
+                />
+            </div>
             <button 
                 type='submit'
                 disabled={list.length === 0 || !client || !dateSell}

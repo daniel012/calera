@@ -89,7 +89,12 @@ export const CreateSellStyle =  createUseStyles({
         display: 'flex',
         marginLeft: '40px',
         marginTop: '20px',
-        '& input': {
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        '& div': {
+            margin: '10px 0',
+        },
+        '& div input:not([type="checkbox"])': {
             margin: '0px 10px',
             width: '194px',
             border: '1px solid #CACACA',
