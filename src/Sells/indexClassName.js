@@ -133,6 +133,8 @@ export const SearchSellStyle =  createUseStyles({
         }
     },
     displayClient: {
+        marginLeft: '40px',
+        marginTop: '20px',
         display: 'flex',
         '& img':{
             paddingLeft: '14px',
@@ -142,7 +144,7 @@ export const SearchSellStyle =  createUseStyles({
         maxWidth: '1000px',
         padding: '20px 40px',
         maxHeight: '300px',
-        overflowY: 'scroll'
+        overflowY: 'auto'
     },
     principal: {
         borderCollapse: 'collapse',
@@ -165,3 +167,14 @@ export const SearchSellStyle =  createUseStyles({
         }
     }
 });
+
+export const addPaymentStyles =  createUseStyles({
+    form: {
+        display: 'flex',
+        marginLeft: '40px',
+        marginTop: '20px',
+        '& input': {
+            margin: '0px 10px',
+        }
+    }
+})

@@ -1,7 +1,8 @@
 import * as React from 'react';
-
+import { addPaymentStyles } from'../indexClassName';
 
 const NewPayment = (props) => {
+    const className = addPaymentStyles();
     const [newPayment, setNewPayment] = React.useState(0);
     const addNewPayment = (evt) => {
         evt.preventDefault();
@@ -11,7 +12,7 @@ const NewPayment = (props) => {
     }
 
     return(
-        <form onSubmit={addNewPayment}>
+        <form onSubmit={addNewPayment} className={className.form}>
             <label htmlFor='addPayment'>Agregar pago:</label>
             <input 
                 id="addPayment"

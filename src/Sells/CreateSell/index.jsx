@@ -3,7 +3,7 @@ import ListProducts from './ListProducts';
 import { CreateSellStyle } from'../indexClassName';
 import SearchClient from './searchClient';
 import { toast } from 'react-toastify';
-import { url, basicErrorToast } from '../../utils';
+import { url, basicErrorToast,basicWarningMessage } from '../../utils';
 import axios from 'axios';
 
 const CreateSell = (props) => {
@@ -19,7 +19,8 @@ const CreateSell = (props) => {
     const [invoice, setInvoice] = React.useState('');
     const [paymentType, setPaymentType] = React.useState(true);
 
-    
+    React.useEffect(()=> props.onOpenTab(), []);
+
     const timeOut = React.useRef(undefined);
 
     const submitFrom = (event) => {
@@ -74,34 +75,54 @@ const CreateSell = (props) => {
         for(const ele of list) {
             total += parseFloat(ele.price);
         }
-        console.log('list: ', list);
-        axios.post(`${url}/sell`,{
-            client: client.id,
-            dateSell,
-            payment, 
-            total, 
-            list,
-            delivered,
-            invoice,
-            paymentType: paymentType? '1': '0'
-        })
-            .then((value)=> {
-                toast(`se registro la venta`,{
-                    position: 'top-center',
-                    type: 'success',
-                    theme: 'colored',
-                    closeOnClick: true,
-                    hideProgressBar: true
+        let hasError = false; 
+
+        if(payment > total) {
+            basicWarningMessage('la cantidad a pagar no puede ser mayor que el monto de la venta')
+            hasError = true;
+        } 
+        const today = new Date(); 
+        let testingDate = new Date(dateSell);
+        testingDate.setDate(testingDate.getDate() + 1);
+
+        if(testingDate > today) {
+            basicWarningMessage('no se puede registrar ventas en el futuro')
+            hasError = true;
+        }
+        
+        if(!hasError) {
+            const sell = {
+                client: client.id,
+                dateSell,
+                payment, 
+                total, 
+                list,
+                delivered,
+                invoice,
+                paymentType: paymentType? '1': '0'
+            };
+            axios.post(`${url}/sell`,sell)
+                .then((value)=> {
+                    console.log('value: ', value);
+                    toast(`se registro la venta`,{
+                        position: 'top-center',
+                        type: 'success',
+                        theme: 'colored',
+                        closeOnClick: true,
+                        hideProgressBar: true
+                    })
+                    sell['id'] = value.data; 
+                    props.onCompleteCallBack(sell);
                 })
-                props.onCompleteCallBack();
-            })
-            .catch((error) => {
-                if(error.response.status === 409 && error.response.data === 'FACTURA_REPETIDA') {
-                    basicErrorToast(error,'Factura repetida');
-                } else {
-                    basicErrorToast(error)
-                }
-            });
+                .catch((error) => {
+                    if(error.response.status === 409 && error.response.data === 'FACTURA_REPETIDA') {
+                        basicErrorToast(error,'Factura repetida');
+                    } else {
+                        basicErrorToast(error)
+                    }
+                });
+
+        }
     }
 
     const searchProduct = (evt) => {

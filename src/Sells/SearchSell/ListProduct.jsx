@@ -13,12 +13,12 @@ const ListProducts = (props) => {
                     <th>Cantidad</th>
                     <th>Precio</th>
                 </tr>
-                {elements.map(( {amount, name, price},index ) => {
+                {elements.map(( {amount, product, unitPrice},index ) => {
                     return (
                         <tr>
-                            <td>{name}</td>
+                            <td>{product}</td>
                             <td>{amount}</td>
-                            <td>{price}</td>
+                            <td>{unitPrice}</td>
                         </tr>)    
                 })}
             </table>
@@ -27,7 +27,8 @@ const ListProducts = (props) => {
             <div>
                 <label>Total:  <span>{props.totalDebt}</span></label><br />
                 <label>Pagado: <span>{props.payment}</span></label><br />
-                <label>Deuda:  <span>{(props.totalDebt - props.payment)}</span></label><br />
+                {props.liquidated ? (<b>Liquidada</b>): (<label>Deuda:  <span>{(props.totalDebt - props.payment)}</span></label>)}
+                <br />
             </div>
         </div>
     </>
