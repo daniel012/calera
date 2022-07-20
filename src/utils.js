@@ -27,3 +27,13 @@ export const basicWarningMessage = ( msj, internalMesage = undefined) => {
         console.log(internalMesage)
     }
 }
+
+export const basicSuccessMessage = ( msj) => {
+    toast(msj,{
+        position: 'top-center',
+        type: 'success',
+        theme: 'colored',
+        closeOnClick: true,
+        hideProgressBar: true
+    });
+}
