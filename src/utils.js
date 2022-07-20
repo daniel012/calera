@@ -15,7 +15,7 @@ export const basicErrorToast = (error, msj = 'Error: contacta al administrador' 
     console.error(error)
 }
 
-export const basicWarningMessage = ( msj, internalMesage = undefined) => {
+export const basicWarningMessage = ( msj, internalMessage = undefined) => {
     toast(msj,{
         position: 'top-center',
         type: 'warning',
@@ -23,8 +23,8 @@ export const basicWarningMessage = ( msj, internalMesage = undefined) => {
         closeOnClick: true,
         hideProgressBar: true
     });
-    if(internalMesage) {
-        console.log(internalMesage)
+    if(internalMessage) {
+        console.log(internalMessage)
     }
 }
 
