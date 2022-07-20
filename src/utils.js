@@ -35,3 +35,10 @@ export const basicSuccessMessage = ( msj) => {
         hideProgressBar: true
     });
 }
+
+export const isInputDateFuture = (date) => {
+    const today = new Date(); 
+    let testingDate = new Date(date);
+    testingDate.setDate(testingDate.getDate() + 1);
+    return testingDate > today;
+} 

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import axios from 'axios';
 import { clientStyle } from '../indexClassName';
-import { basicErrorToast, basicSuccessMessage, url } from '../../utils';
+import { basicErrorToast, basicSuccessMessage, basicWarningMessage, isInputDateFuture,url } from '../../utils';
 
 const Product = () => {
     const [code, setCode] = React.useState('');
@@ -46,38 +46,42 @@ const Product = () => {
             productPrice,
             'real_amount': amount
         }
-        if( !id ) {
-            axios.post(`${url}/product`,{
-                 ...payload,
-                'fecha': dateChange,
-                })
-                .then(()=> showSuccess('insert'))
-                .catch((e)=> showError('insert', e));
+        if(isInputDateFuture(dateChange)){
+            basicWarningMessage('no se puede usar fechas en el futuro');
         } else {
-            let isOk = true;
-            let changePayload = {};
             
-            if(prevAmount.current !== amount){
-                // eslint-disable-next-line no-restricted-globals
-                isOk= confirm(`Modificando la existencia de ${name}, ¿Continuar?`);
-                changePayload = {
-                    isIngreso: prevAmount.current > amount?0:1,
-                    difference: Math.abs(prevAmount.current - amount),
-                    fecha: dateChange,
+            if( !id ) {
+                axios.post(`${url}/product`,{
+                     ...payload,
+                    'fecha': dateChange,
+                    })
+                    .then(()=> showSuccess('insert'))
+                    .catch((e)=> showError('insert', e));
+            } else {
+                let isOk = true;
+                let changePayload = {};
+                
+                if(prevAmount.current !== amount){
+                    // eslint-disable-next-line no-restricted-globals
+                    isOk= confirm(`Modificando la existencia de ${name}, ¿Continuar?`);
+                    changePayload = {
+                        isIngreso: prevAmount.current > amount?0:1,
+                        difference: Math.abs(prevAmount.current - amount),
+                        fecha: dateChange,
+                    }
+                }
+                
+                if(isOk){
+                    axios.put(`${url}/product/${id}`,{
+                        ...payload,
+                        fecha: null,
+                        ...changePayload
+                        })
+                        .then(()=> showSuccess('put'))
+                        .catch((e)=> showError('put', e));
                 }
             }
-            
-            if(isOk){
-                axios.put(`${url}/product/${id}`,{
-                    ...payload,
-                    fecha: null,
-                    ...changePayload
-                    })
-                    .then(()=> showSuccess('put'))
-                    .catch((e)=> showError('put', e));
-            }
         }
-        
     } 
 
     const searchPrevProduct = (evt) => {
@@ -125,7 +129,7 @@ const Product = () => {
             </div>
             <div>
                 <label htmlFor='dateChange' >Fecha de modificacion: </label>
-                <input type={'date'} required={prevAmount.current !== amount} id='dateChange' min={0}  value={dateChange} onChange={(evt)=> setDateChange(evt.target.value)}/>
+                <input type={'date'} required={prevAmount.current !== amount} id='dateChange' value={dateChange} onChange={(evt)=> setDateChange(evt.target.value)}/>
             </div>
             <button>{id?'Editar':'Agregar'}</button>
         </form>

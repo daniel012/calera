@@ -2,7 +2,7 @@ import * as React from 'react';
 import ListProducts from './ListProducts';
 import { CreateSellStyle } from'../indexClassName';
 import SearchClient from './searchClient';
-import { basicErrorToast,basicWarningMessage, basicSuccessMessage, url } from '../../utils';
+import { basicErrorToast,basicWarningMessage, basicSuccessMessage, isInputDateFuture, url } from '../../utils';
 import axios from 'axios';
 
 const CreateSell = (props) => {
@@ -68,11 +68,8 @@ const CreateSell = (props) => {
             basicWarningMessage('la cantidad a pagar no puede ser mayor que el monto de la venta')
             hasError = true;
         } 
-        const today = new Date(); 
-        let testingDate = new Date(dateSell);
-        testingDate.setDate(testingDate.getDate() + 1);
 
-        if(testingDate > today) {
+        if(isInputDateFuture(dateSell)) {
             basicWarningMessage('no se puede registrar ventas en el futuro')
             hasError = true;
         }
