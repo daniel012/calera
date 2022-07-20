@@ -8,7 +8,7 @@ const NewPayment = (props) => {
     const [newPayment, setNewPayment] = React.useState(0);
     const addNewPayment = (evt) => {
         evt.preventDefault();
-      
+
         axios.post(`${url}/payment`,{
             idSell: props.sell.id,
             payment: parseFloat(newPayment)

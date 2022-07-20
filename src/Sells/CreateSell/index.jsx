@@ -33,7 +33,7 @@ const CreateSell = (props) => {
                 id: infoPro.id,
                 amount: Number(amount), 
                 product:infoPro.name,
-                newAmount: infoPro.amount - amount,
+                newAmount: Number(infoPro.amount - amount).toFixed(2),
                 code:infoPro.code,
                 unitPrice: Number(price), 
                 price: Number(Number(price)*Number(amount)).toFixed(2),
