@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { toast } from 'react-toastify';
-import { url } from '../../utils';
+import { basicErrorToast,basicWarningMessage, basicSuccessMessage, url } from '../../utils';
 import axios from 'axios';
 
 
@@ -28,25 +27,10 @@ const SearchClient =( props) => {
                     if(value.status === 200){
                         props.onSearchClientCallBack(value.data[0]);
                     } else if( value.status === 204) {
-                        toast(`cliente ${evt.target[0].value} no se encuentra`,{
-                            position: 'top-center',
-                            type: 'warning',
-                            theme: 'colored',
-                            closeOnClick: true,
-                            hideProgressBar: true
-                        });
+                        basicWarningMessage(`cliente ${evt.target[0].value} no se encuentra`);
                     }
                 })
-                .catch((error)=>{
-                    toast(`contacta al administrador`,{
-                        position: 'top-center',
-                        type: 'error',
-                        theme: 'colored',
-                        closeOnClick: true,
-                        hideProgressBar: true
-                    });
-                    console.error(error);
-                });
+                .catch((error)=> basicErrorToast(error));
         }
     } 
     return(

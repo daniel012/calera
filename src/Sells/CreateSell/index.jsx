@@ -2,8 +2,7 @@ import * as React from 'react';
 import ListProducts from './ListProducts';
 import { CreateSellStyle } from'../indexClassName';
 import SearchClient from './searchClient';
-import { toast } from 'react-toastify';
-import { url, basicErrorToast,basicWarningMessage } from '../../utils';
+import { basicErrorToast,basicWarningMessage, basicSuccessMessage, url } from '../../utils';
 import axios from 'axios';
 
 const CreateSell = (props) => {
@@ -26,21 +25,9 @@ const CreateSell = (props) => {
     const submitFrom = (event) => {
         event.preventDefault();
         if(list.filter(ele => ele.code === infoPro.code).length !== 0){
-            toast(`Producto ${product}  repetido`,{
-                position: 'top-center',
-                type: 'warning',
-                theme: 'colored',
-                closeOnClick: true,
-                hideProgressBar: true
-            });
+            basicWarningMessage(`Producto ${product}  repetido`);
         } else if(amount > infoPro.amount) {
-            toast(`la canditdad a agregar debe ser menor a la disponible`,{
-                position: 'top-center',
-                type: 'warning',
-                theme: 'colored',
-                closeOnClick: true,
-                hideProgressBar: true
-            });
+            basicWarningMessage(`la canditdad a agregar debe ser menor a la disponible`);
         }else {
             setList([...list, {
                 id: infoPro.id,
@@ -103,14 +90,7 @@ const CreateSell = (props) => {
             };
             axios.post(`${url}/sell`,sell)
                 .then((value)=> {
-                    console.log('value: ', value);
-                    toast(`se registro la venta`,{
-                        position: 'top-center',
-                        type: 'success',
-                        theme: 'colored',
-                        closeOnClick: true,
-                        hideProgressBar: true
-                    })
+                    basicSuccessMessage(`se registro la venta`);
                     sell['id'] = value.data; 
                     props.onCompleteCallBack(sell);
                 })
@@ -221,7 +201,8 @@ const CreateSell = (props) => {
             <div>
                 <label htmlFor='payment'>Abono a capital:</label>
                 <input
-                    type={'text'}
+                    type={'number'}
+                    step={0.1}
                     id='payment'
                     value={payment}
                     onChange={(evt)=> setPayment(evt.target.value)}

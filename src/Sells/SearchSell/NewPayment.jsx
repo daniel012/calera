@@ -32,7 +32,8 @@ const NewPayment = (props) => {
             <input 
                 id="addPayment"
                 type={'number'}
-                min={1}
+                min={0.1}
+                step={0.1}
                 value={newPayment}
                 onChange={(evt)=> setNewPayment(evt.target.value)}
                 required

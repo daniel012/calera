@@ -1,8 +1,7 @@
 import * as React from 'react';
 import axios from 'axios';
 import { clientStyle } from '../indexClassName';
-import { url } from '../../utils';
-import { toast } from 'react-toastify';
+import { basicErrorToast, basicSuccessMessage, url } from '../../utils';
 
 const Product = () => {
     const [code, setCode] = React.useState('');
@@ -18,14 +17,7 @@ const Product = () => {
 
     const className = clientStyle(); 
     const showSuccess = (type) => {
-        toast(`Producto ${name} ${type === 'insert'? 'creado':'actualizado'}`,{
-            position: 'top-center',
-            type: 'success',
-            theme: 'colored',
-            closeOnClick: true,
-            hideProgressBar: true
-        });
-
+        basicSuccessMessage(`Producto ${name} ${type === 'insert'? 'creado':'actualizado'}`);
         setCode('');
         setName('');
         setDescription('');
@@ -36,16 +28,12 @@ const Product = () => {
         prevAmount.current = 0;
     }
 
-    const showError = (type, error) => {
-        toast(`No se pudo crear al ${type === 'insert'? 'insertar':'actualizar'} contacta al administrador`,{
-            position: 'top-center',
-            type: 'error',
-            theme: 'colored',
-            closeOnClick: true,
-            hideProgressBar: true
-        });
-        console.error(error);
-    }
+    const showError = (type, error) => basicErrorToast(
+        error, 
+        `No se pudo crear al ${type === 'insert'? 'insertar':'actualizar'} contacta al administrador`
+        ); 
+
+    
 
     const submitFrom = (event) => {
         event.preventDefault();        
@@ -107,16 +95,7 @@ const Product = () => {
                 } else {
                     setId('');
                 }
-            }).catch((error)=>{
-                toast(`Error desconocido, contacta al administrador`,{
-                    position: 'top-center',
-                    type: 'error',
-                    theme: 'colored',
-                    closeOnClick: true,
-                    hideProgressBar: true
-                });
-                console.error('error: ', error);
-            });
+            }).catch((error)=> basicErrorToast(error));
         }
     }
 

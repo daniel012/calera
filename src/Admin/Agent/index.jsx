@@ -2,8 +2,7 @@ import * as React from 'react';
 import axios from 'axios';
 import PhoneInput from 'react-phone-input-2';
 import { clientStyle } from '../indexClassName';
-import { url } from '../../utils';
-import { toast } from 'react-toastify';
+import { basicErrorToast,basicWarningMessage, basicSuccessMessage, url } from '../../utils';
 
 const Agent = () => {
     const [phone, setPhone] = React.useState('52');
@@ -15,14 +14,7 @@ const Agent = () => {
 
     const className = clientStyle(); 
     const showSuccess = (type) => {
-        toast(`Agente ${name} ${type === 'insert'? 'creado':'actualizado'}`,{
-            position: 'top-center',
-            type: 'success',
-            theme: 'colored',
-            closeOnClick: true,
-            hideProgressBar: true
-        });
-
+        basicSuccessMessage(`Agente ${name} ${type === 'insert'? 'creado':'actualizado'}`);
         setName('');
         setEmail('');
         setAddress('');
@@ -32,27 +24,14 @@ const Agent = () => {
     }
 
     const showError = (type, error) => {
-        toast(`No se pudo crear al ${type === 'insert'? 'insertar':'actualizar'} contacta al administrador`,{
-            position: 'top-center',
-            type: 'error',
-            theme: 'colored',
-            closeOnClick: true,
-            hideProgressBar: true
-        });
-        console.error(error);
+        basicErrorToast(error,`No se pudo crear al ${type === 'insert'? 'insertar':'actualizar'} contacta al administrador`);
     }
 
     const submitFrom = (event) => {
         event.preventDefault();        
 
         if(phone.toString().length !== 12){   
-            toast('Numero incorrecto',{
-                position: 'top-center',
-                type: 'warning',
-                theme: 'colored',
-                closeOnClick: true,
-                hideProgressBar: true
-            });
+            basicWarningMessage('Numero incorrecto');
         } else {
             if( !id ) {
                 axios.post(`${url}/agent`,{
@@ -89,16 +68,7 @@ const Agent = () => {
                 } else {
                     setId('');
                 }
-            }).catch((error)=>{
-                toast(`Error desconocido, contacta al administrador`,{
-                    position: 'top-center',
-                    type: 'error',
-                    theme: 'colored',
-                    closeOnClick: true,
-                    hideProgressBar: true
-                });
-                console.error('error: ', error);
-            });
+            }).catch((error)=> basicErrorToast(error));
         }
     }
 

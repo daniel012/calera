@@ -2,8 +2,7 @@ import * as React from 'react';
 import axios from 'axios';
 import { clientStyle } from '../indexClassName';
 import PhoneInput from 'react-phone-input-2';
-import { url } from '../../utils';
-import { toast } from 'react-toastify';
+import { basicErrorToast,basicWarningMessage, basicSuccessMessage, url } from '../../utils';
 
 const Client = () => {
     const [phone, setPhone] = React.useState('52');
@@ -18,33 +17,14 @@ const Client = () => {
 
     const errorShow  = (error) => {
         if(error.response.status === 409){
-            toast(`Usuario ${name} ya existe`,{
-                position: 'top-center',
-                type: 'warning',
-                theme: 'colored',
-                closeOnClick: true,
-                hideProgressBar: true
-            });
+            basicWarningMessage(`Usuario ${name} ya existe`);
         }else {
-            toast(`${error.response.status} Error, contacte al administrador`,{
-                position: 'top-center',
-                type: 'error',
-                theme: 'colored',
-                closeOnClick: true,
-                hideProgressBar: true
-            });
+            basicErrorToast(error, `${error.response.status} Error, contacte al administrador`);
         }
-        console.error('error: ',error);
     }
 
     const showSuccess = () => {
-        toast(`Usuario ${name} ${id?'actualizado':'insertado'} ` ,{
-            position: 'top-center',
-            type: 'success',
-            theme: 'colored',
-            closeOnClick: true,
-            hideProgressBar: true
-        });
+        basicSuccessMessage(`Usuario ${name} ${id?'actualizado':'insertado'}`);
         setId('');
         setInfoAgent('');
         setAgent('');
@@ -60,23 +40,11 @@ const Client = () => {
         let hasError = false;
         if(phone.toString().length !== 12){
             hasError = true; 
-            toast('Numero incorrecto',{
-                position: 'top-center',
-                type: 'warning',
-                theme: 'colored',
-                closeOnClick: true,
-                hideProgressBar: true
-            });
+            basicWarningMessage('Numero incorrecto');
         }
         if(!infoAgent) {
-            toast('Validar agente',{
-                position: 'top-center',
-                type: 'warning',
-                theme: 'colored',
-                closeOnClick: true,
-                hideProgressBar: true
-            });
             hasError = true;
+            basicWarningMessage('Validar agente');
         }
         if( !hasError ) {
             if(!id) {
@@ -109,25 +77,9 @@ const Client = () => {
             if(value.data.length !== 0){
                 setInfoAgent(value.data[0]);
             } else {
-                toast('Agente no encontrado',{
-                    position: 'top-center',
-                    type: 'warning',
-                    theme: 'colored',
-                    closeOnClick: true,
-                    hideProgressBar: true
-                });
+                basicWarningMessage('Agente no encontrado');
             }
-        }).catch((error)=> {
-            toast('Error en busqueda de agente',{
-                position: 'top-center',
-                type: 'warning',
-                theme: 'colored',
-                closeOnClick: true,
-                hideProgressBar: true
-            });
-            console.error('error: ', error);
-        });
-
+        }).catch((error)=> basicErrorToast(error,'Error en busqueda de agente'));
     }
 
     const delteAgent = () => {setInfoAgent(''); setAgent('');}
