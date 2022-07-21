@@ -38,7 +38,9 @@ export const basicSuccessMessage = ( msj) => {
 
 export const isInputDateFuture = (date) => {
     const today = new Date(); 
-    let testingDate = new Date(date);
-    testingDate.setDate(testingDate.getDate() + 1);
-    return testingDate > today;
+    let newDate = new Date(date);
+    newDate.setDate(newDate.getDate() + 1);
+    newDate.setHours(0,0,0,0);
+    today.setHours(0,0,0,0);
+    return newDate > today;
 } 
