@@ -74,7 +74,7 @@ const CreateSell = (props) => {
             hasError = true;
         }
         
-        if(!hasError && false) {
+        if(!hasError) {
             const sell = {
                 client: client.id,
                 dateSell,
