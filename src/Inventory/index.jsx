@@ -1,74 +1,53 @@
 import * as React from 'react';
-
+import { basicErrorToast, url } from '../utils';
+import axios from 'axios';
 import { Principal } from './indexClassName';
+import LoadingSpinner from '../spinner';
 
 const Inventory = () => {
     const className = Principal();
     const [element, setElement] = React.useState('');
-    const onSearch = (evt) => {
-        evt.preventDefault();
-        setElement({
-            product:{
-                id: 123, 
-                name: 'test'
-            },
-            history: [
-            {
-                amount: 123, 
-                idSell: 456, 
-                date: '04-11-1992'
-            },{
-                amount: 123, 
-                idSell: 456, 
-                date: '04-11-1992'
-            },{
-                amount: 123, 
-                idSell: 456, 
-                date: '04-11-1992'
-            },{
-                amount: 123, 
-                idSell: 456, 
-                date: '04-11-1992'
-            },
-            
-        ]});
-    };
+    const [loading, setLoading] = React.useState(true);
+    
 
-    const deleteElement = () => setElement('');
-
-    if(!!element){
-        const {product, history} = element;
+    React.useEffect(()=>{
+        axios.get(`${url}/product`)
+        .then((value)=> {
+            setElement(value.data);
+            setLoading(false);
+        })
+        .catch(error => basicErrorToast(error));
+    },[]);
+    
+    if(!!element && !loading){
         return(
         <div>
-            <div className={className.displayClient}> 
-                <label>Venta: {product.name}</label>
-                <img alt='delete client' src="/delete.svg" onClick={deleteElement}></img>
-            </div>
             <table className={className.table}>
                 <tr>
-                    <th>Venta</th>
+                    <th>Codigo</th>
                     <th>Cantidad</th>
-                    <th>Fecha</th>
+                    <th>Nombre</th>
+                    <th>Precio sugerido</th>
                 </tr>
-                {history.map(( {idSell,amount, date}) => {
+                {element.map(( {code ,amount, name, productPrice}) => {
                     return (
                         <tr>
-                            <td>{idSell}</td>
+                            <td>{code}</td>
                             <td>{amount}</td>
-                            <td>{date}</td>
+                            <td>{name}</td>
+                            <td>{productPrice}</td>
                         </tr>)    
                 })}
             </table>
         </div>);
     }
     return(
-        <form onSubmit={onSearch}>
-            <div className={className.containerButton}>
-                <label htmlFor='searchVenta'>Id Producto:</label>
-                <input type={'text'} id='searchVenta' required />
-                <button type='submit'>Buscar</button>
-            </div>
-        </form>     
+        <div style={{
+            marginTop: '20px',
+            marginLeft: '40px'
+        }}>
+            <LoadingSpinner /> 
+        </div>
     );
 }
 
