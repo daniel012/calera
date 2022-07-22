@@ -78,7 +78,7 @@ const CreateSell = (props) => {
             const sell = {
                 client: client.id,
                 dateSell,
-                payment, 
+                payment: Number(payment), 
                 total, 
                 list,
                 delivered,
@@ -174,7 +174,7 @@ const CreateSell = (props) => {
                     type={'checkbox'}
                     id='delivered'
                     checked={delivered}
-                    onChange={(evt)=> {console.log(evt); setDelivered(!delivered)}}
+                    onChange={(evt)=>  setDelivered(!delivered)}
                 />
             </div>
             <div>
@@ -183,7 +183,7 @@ const CreateSell = (props) => {
                     type={'checkbox'}
                     id='delivered'
                     checked={paymentType}
-                    onChange={(evt)=> {console.log(evt); setPaymentType(!paymentType)}}
+                    onChange={(evt)=> setPaymentType(!paymentType)}
                 />
             </div>
             <div>

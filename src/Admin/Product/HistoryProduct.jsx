@@ -18,7 +18,6 @@ const HistoryProduct = (props) => {
     if(history.length === 0) {
         return <></>
     }
-    console.log('history: ',history);
     return(
         <div>
             <table >

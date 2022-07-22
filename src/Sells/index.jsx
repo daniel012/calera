@@ -17,7 +17,7 @@ const Sells = () => {
     </TabList>
 
     <TabPanel>
-      <CreateSell onCompleteCallBack={(sell)=> {  setSelll(sell);  setSelectedTab(1);}} onOpenTab={()=> setSelll(undefined)}/>
+      <CreateSell onCompleteCallBack={(sell)=> { setSelll(sell);  setSelectedTab(1);}} onOpenTab={()=> setSelll(undefined)}/>
     </TabPanel>
     <TabPanel>
       <SearchSell sell={sell} />
