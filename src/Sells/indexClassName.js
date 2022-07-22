@@ -182,12 +182,28 @@ export const addPaymentStyles =  createUseStyles({
 export const sellViewContainer =  createUseStyles({
     container: {
         display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'self-start',
-        marginLeft: '40px',
-        '& label': {
-            marginTop: '2px',
-            marginBottom: '2px',
+        '& .sellContainer': {
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'self-start',
+            marginLeft: '40px',
+            '& label': {
+                marginTop: '2px',
+                marginBottom: '2px',
+            },
+        },
+        '& .paymentHistory':{
+            marginLeft: '60px',
+            '& table': {
+                width: '100%',
+                '& th, td': {
+                textAlign: 'left',
+                padding: '8px',
+                },
+                '& tr:nth-child(even)': {
+                backgroundColor: '#D6EEEE'
+                },
+            }
         }
     }
 })

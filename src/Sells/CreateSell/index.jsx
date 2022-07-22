@@ -77,6 +77,8 @@ const CreateSell = (props) => {
         if(!hasError) {
             const sell = {
                 client: client.id,
+                clientName: client.nombre,
+                agent: client.agente.name,
                 dateSell,
                 payment: Number(payment), 
                 total, 

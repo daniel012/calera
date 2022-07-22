@@ -3,6 +3,7 @@ import ListProducts from './ListProduct';
 import Search from './SearchSell';
 import NewPayment from './NewPayment';
 import { sellViewContainer } from '../indexClassName';
+import PaymentHistory from './PaymentHistory';
 
 const SearchSell = (props) => {
     const [sell, setSell] = React.useState(undefined);
@@ -19,11 +20,15 @@ const SearchSell = (props) => {
         <Search onSearchSellCallBack={setSell} sell={sell} />
         
             { !!sell && <div className={className.container}>
-                <label>Client: <b>{sell.client}</b></label>
-                <label>Agente: <b>{sell.agent}</b></label> 
-                <ListProducts list={sell.list} totalDebt={sell.total} payment={sell.payment} liquidated={liquidated}/>
-                <label>Factura: <b>{sell.invoice}</b></label>
-                <NewPayment sell={sell} setSell={setSell} liquidated={liquidated} />
+                <div className='sellContainer'>
+                    <label>Cliente: <b>{sell.clientName}</b></label>
+                    <label>Agente: <b>{sell.agent}</b></label> 
+                    <ListProducts list={sell.list} totalDebt={sell.total} payment={sell.payment} liquidated={liquidated}/>
+                    <label>Factura: <b>{sell.invoice}</b></label>
+                    <NewPayment sell={sell} setSell={setSell} liquidated={liquidated} />
+                </div>
+                {sell.paymentHistory && <PaymentHistory history={sell.paymentHistory} />}
+
             </div>}
         
         </>

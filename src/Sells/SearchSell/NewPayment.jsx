@@ -8,15 +8,21 @@ const NewPayment = (props) => {
     const [newPayment, setNewPayment] = React.useState(0);
     const addNewPayment = (evt) => {
         evt.preventDefault();
-
+        const payment = Number(newPayment); 
+        
         axios.post(`${url}/payment`,{
             idSell: props.sell.id,
-            payment: parseFloat(newPayment)
+            payment
         })
             .then(value => {
                 if(value.status === 200){
                     basicSuccessMessage('se ha agregado el pago');
-                    props.setSell({...props.sell, payment: parseFloat(props.sell.payment) + parseFloat(newPayment)});
+                    const tempSell = {...props.sell, payment: parseFloat(props.sell.payment) + parseFloat(newPayment)};
+                    if(!tempSell.paymentHistory) {
+                        tempSell.paymentHistory = [];
+                    }
+                    tempSell.paymentHistory.push(value.data);
+                    props.setSell(tempSell);
                     setNewPayment(0);
                 } else if(value.status === 204) {
                     basicWarningMessage('la venta no se ha encontrado')
