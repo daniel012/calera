@@ -5,14 +5,13 @@ import { basicErrorToast, url } from '../../utils';
 const HistoryProduct = (props) => {
 
     const [history, setHistory] = React.useState([]);
-    
     React.useEffect(()=>{
         axios.get(`${url}/productHistory/${props.idProduct}`)
             .then((value)=> {
                 setHistory(value.data)
             })
             .catch(error => basicErrorToast(error));
-    },[]);
+    },[props.idProduct]);
     
     if(history.length === 0) {
         return <></>

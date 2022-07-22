@@ -142,7 +142,7 @@ export const SearchSellStyle =  createUseStyles({
     },
     wrap:{
         maxWidth: '1000px',
-        padding: '20px 0px',
+        padding: '10px 0px',
         maxHeight: '300px',
         overflowY: 'auto'
     },
@@ -160,7 +160,6 @@ export const SearchSellStyle =  createUseStyles({
     totalPrice:{
         display:'flex',
         marginTop: '10px',
-        paddingLeft: '40px',
         textAlign:'left',
         '& span':{
             fontWeight: 'bold',
@@ -185,6 +184,10 @@ export const sellViewContainer =  createUseStyles({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'self-start',
-        marginLeft: '40px'
+        marginLeft: '40px',
+        '& label': {
+            marginTop: '2px',
+            marginBottom: '2px',
+        }
     }
 })

@@ -19,11 +19,11 @@ const SearchSell = (props) => {
         <Search onSearchSellCallBack={setSell} sell={sell} />
         
             { !!sell && <div className={className.container}>
-                <label>Client: {sell.client}</label><br/>
-                <label>Agente: {sell.agent}</label><br/>
+                <label>Client: <b>{sell.client}</b></label>
+                <label>Agente: <b>{sell.agent}</b></label> 
                 <ListProducts list={sell.list} totalDebt={sell.total} payment={sell.payment} liquidated={liquidated}/>
-                <label>Factura: {sell.invoice}</label>
-                {!liquidated && <NewPayment sell={sell} setSell={setSell} />}
+                <label>Factura: <b>{sell.invoice}</b></label>
+                <NewPayment sell={sell} setSell={setSell} liquidated={liquidated} />
             </div>}
         
         </>

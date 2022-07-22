@@ -25,6 +25,9 @@ const NewPayment = (props) => {
             .catch((error) => basicErrorToast(error));
     
     }
+    if(props.liquidated) {
+        return(<b>Liquidada</b>)
+    }
 
     return(
         <form onSubmit={addNewPayment} className={className.form}>

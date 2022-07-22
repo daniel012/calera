@@ -27,7 +27,7 @@ const ListProducts = (props) => {
             <div>
                 <label>Total:  <span>{props.totalDebt}</span></label><br />
                 <label>Pagado: <span>{Number(props.payment.toFixed(2))}</span></label><br />
-                {props.liquidated ? (<b>Liquidada</b>): (<label>Deudas:  <span>{(Number(props.totalDebt - props.payment).toFixed(2))}</span></label>)}
+                {!props.liquidated && (<label>Deudas:  <span>{(Number(props.totalDebt - props.payment).toFixed(2))}</span></label>)}
                 <br />
             </div>
         </div>
