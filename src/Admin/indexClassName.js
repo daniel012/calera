@@ -29,4 +29,23 @@ export const clientStyle =  createUseStyles({
     }
 });
 
-
+export const mainWrapper =  createUseStyles({
+    container:{
+        display: 'flex',
+        '& .historyProduct': {
+            marginLeft: '70px',
+            marginTop: '20px',
+            '& table': {
+                borderCollapse: 'collapse',
+                width: '100%',
+                '& th, td': {
+                textAlign: 'left',
+                padding: '8px',
+                },
+                '& tr:nth-child(even)': {
+                backgroundColor: '#D6EEEE'
+                },
+            },
+        }
+    },
+});

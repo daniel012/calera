@@ -2,10 +2,11 @@ import * as React from 'react';
 import ListProducts from './ListProduct';
 import Search from './SearchSell';
 import NewPayment from './NewPayment';
+import { sellViewContainer } from '../indexClassName';
 
 const SearchSell = (props) => {
     const [sell, setSell] = React.useState(undefined);
-
+    const className = sellViewContainer();
     React.useEffect(()=>{
         if(props.sell){
             setSell(props.sell);
@@ -16,12 +17,14 @@ const SearchSell = (props) => {
     return(
         <>
         <Search onSearchSellCallBack={setSell} sell={sell} />
-        <div>
-            { !!sell && <>
+        
+            { !!sell && <div className={className.container}>
+                <label>Client: {sell.client}</label><br/>
+                <label>Agente: {sell.agent}</label><br/>
                 <ListProducts list={sell.list} totalDebt={sell.total} payment={sell.payment} liquidated={liquidated}/>
+                <label>Factura: {sell.invoice}</label>
                 {!liquidated && <NewPayment sell={sell} setSell={setSell} />}
-            </>}
-        </div>
+            </div>}
         
         </>
     );

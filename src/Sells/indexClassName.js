@@ -142,7 +142,7 @@ export const SearchSellStyle =  createUseStyles({
     },
     wrap:{
         maxWidth: '1000px',
-        padding: '20px 40px',
+        padding: '20px 0px',
         maxHeight: '300px',
         overflowY: 'auto'
     },
@@ -176,5 +176,15 @@ export const addPaymentStyles =  createUseStyles({
         '& input': {
             margin: '0px 10px',
         }
+    }
+})
+
+
+export const sellViewContainer =  createUseStyles({
+    container: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'self-start',
+        marginLeft: '40px'
     }
 })

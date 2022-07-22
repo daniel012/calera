@@ -1,7 +1,6 @@
 import * as React from 'react';
 import axios from 'axios';
-import { clientStyle } from '../indexClassName';
-import { basicErrorToast, basicSuccessMessage, basicWarningMessage, isInputDateFuture,url } from '../../utils';
+import { basicErrorToast, url } from '../../utils';
 
 const HistoryProduct = (props) => {
 
@@ -19,18 +18,18 @@ const HistoryProduct = (props) => {
         return <></>
     }
     return(
-        <div>
+        <div className='historyProduct'>
             <table >
                 <tr>
-                    <th>tipo</th>
-                    <th>fecha</th>
-                    <th>cantidad</th>
-                    <th>id de venta</th>
+                    <th>Tipo</th>
+                    <th>Fecha</th>
+                    <th>Cantidad</th>
+                    <th>ID de venta</th>
                 </tr>
                 
                     {history.map(({date, amount, type, idSell}) => 
                         (<tr>
-                            <td>{type}</td>
+                            <td>{type === 1? 'Entrada': 'Salida' }</td>
                             <td>{date}</td>
                             <td>{amount}</td>
                             <td>{idSell}</td>
