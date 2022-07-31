@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import DebitBalance from './DebitBalance';
+import Sells from './Sells';
+import ClientAgent from './ClientAgent';
 
 const Reports = () => (
   <Tabs>
@@ -15,13 +17,13 @@ const Reports = () => (
       <DebitBalance />
     </TabPanel>
     <TabPanel>
-      <h2>Any content 2</h2>
+      <Sells />
     </TabPanel>
     <TabPanel>
       <h2>Any content 3</h2>
     </TabPanel>
     <TabPanel>
-      <h2>Any content 4</h2>
+      <ClientAgent />
     </TabPanel>
   </Tabs>
 );
