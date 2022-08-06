@@ -170,7 +170,6 @@ export const SearchSellStyle =  createUseStyles({
 export const addPaymentStyles =  createUseStyles({
     form: {
         display: 'flex',
-        marginLeft: '40px',
         marginTop: '20px',
         '& input': {
             margin: '0px 10px',
@@ -187,6 +186,7 @@ export const sellViewContainer =  createUseStyles({
             flexDirection: 'column',
             alignItems: 'self-start',
             marginLeft: '40px',
+            marginTop: '10px',
             '& label': {
                 marginTop: '2px',
                 marginBottom: '2px',

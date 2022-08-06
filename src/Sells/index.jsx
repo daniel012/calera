@@ -5,7 +5,7 @@ import CreateSell from './CreateSell';
 
 const Sells = () => {
   const [selectedTab, setSelectedTab] = React.useState(0);
-  const [sell, setSelll] = React.useState(undefined);
+  const [sell, setSell] = React.useState(undefined);
   return ( 
   <Tabs
     selectedIndex={selectedTab}
@@ -17,7 +17,7 @@ const Sells = () => {
     </TabList>
 
     <TabPanel>
-      <CreateSell onCompleteCallBack={(sell)=> { setSelll(sell);  setSelectedTab(1);}} onOpenTab={()=> setSelll(undefined)}/>
+      <CreateSell onCompleteCallBack={(sell)=> { setSell(sell);  setSelectedTab(1);}} onOpenTab={()=> setSell(undefined)}/>
     </TabPanel>
     <TabPanel>
       <SearchSell sell={sell} />
