@@ -9,14 +9,16 @@ const PaymentHistory = ({history}) => {
             <label><b>Historial de pago</b></label>
             <table >
                 <tr>
-                    <th>monto</th>
+                    <th>Monto</th>
                     <th>Fecha</th>
+                    <th>Tipo de pago</th>
                 </tr>
                 
-                    {history.map(({date, amount}) => 
+                    {history.map(({date, amount, paymentType}) => 
                         (<tr>
                             <td>{amount}</td>
                             <td>{date}</td>
+                            <td>{ paymentType && paymentType.toLowerCase() === 'true' ?'Efectivo':'Credito'}</td>
                         </tr>)
                     )}
                 

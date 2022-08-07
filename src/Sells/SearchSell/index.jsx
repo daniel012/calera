@@ -39,13 +39,14 @@ const SearchSell = (props) => {
         }).catch(basicErrorToast);
       }
 
-      const addNewPayment = async (newPayment) => {
+      const addNewPayment = async (newPayment, paymentType) => {
         const payment = Number(newPayment); 
         
         try{
             const value = await axios.post(`${url}/payment`,{
                 idSell: sell.id,
-                payment
+                payment,
+                paymentType
             });
             if(value.status === 200) {
                 basicSuccessMessage('se ha agregado el pago');
@@ -82,7 +83,6 @@ const SearchSell = (props) => {
                     <label>Agente: <b>{sell.agent}</b></label> 
                     <ListProducts list={sell.list} totalDebt={sell.total} payment={sell.payment} addNewPayment={addNewPayment}/>
                     <label>Factura: <b>{sell.invoice}</b></label>
-                    <label>Tipo de Pago: <b>{sell.paymentType? 'Efectivo': 'Credito'}</b></label>
                     <label><b>{sell.delivered? 'Productos entregados': 'Productos no entregados'}</b> </label> 
                     {!sell.delivered && <><input type={'button'} value={"Productos entregados"} onClick={updateDeliver} /></>}
                 </div>
