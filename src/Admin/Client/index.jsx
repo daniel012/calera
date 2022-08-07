@@ -17,14 +17,14 @@ const Client = () => {
 
     const errorShow  = (error) => {
         if(error.response.status === 409){
-            basicWarningMessage(`Usuario ${name} ya existe`);
+            basicWarningMessage(`Cliente ${name} ya existe`);
         }else {
             basicErrorToast(error, `${error.response.status} Error, contacte al administrador`);
         }
     }
 
     const showSuccess = () => {
-        basicSuccessMessage(`Usuario ${name} ${id?'actualizado':'insertado'}`);
+        basicSuccessMessage(`Cliente ${name} ${id?'actualizado':'insertado'}`);
         setId('');
         setInfoAgent('');
         setAgent('');

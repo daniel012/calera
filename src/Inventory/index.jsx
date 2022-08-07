@@ -6,20 +6,17 @@ import LoadingSpinner from '../spinner';
 
 const Inventory = () => {
     const className = Principal();
-    const [element, setElement] = React.useState('');
+    const [element, setElement] = React.useState([]);
     const [loading, setLoading] = React.useState(true);
-    
 
     React.useEffect(()=>{
         axios.get(`${url}/product`)
-        .then((value)=> {
-            setElement(value.data);
-            setLoading(false);
-        })
-        .catch(error => basicErrorToast(error));
+        .then((value)=>setElement(value.data))
+        .catch(error => basicErrorToast(error))
+        .finally(()=>setLoading(false));
     },[]);
     
-    if(!!element && !loading){
+    if(!loading){
         return(
         <div>
             <table className={className.table}>
@@ -29,7 +26,7 @@ const Inventory = () => {
                     <th>Nombre</th>
                     <th>Precio sugerido</th>
                 </tr>
-                {element.map(( {code ,amount, name, productPrice}) => {
+                {element.length !== 0 && element.map(( {code ,amount, name, productPrice}) => {
                     return (
                         <tr>
                             <td>{code}</td>
