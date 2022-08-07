@@ -3,12 +3,24 @@ import { basicErrorToast, basicSuccessMessage, url } from '../../utils';
 import axios from 'axios';
 import {getClientAgent}from './indexClassName';
 
-const ClientAgent = () => {
+const Catalog = () => {
     const [wait, setWait] = React.useState(false);
     const className = getClientAgent();
     const searchClientAgent = () => {
         setWait(true);
         axios.get(`${url}/report/agent`)
+            .then(value => {
+                basicSuccessMessage('reporte generado');
+            })
+            .catch(basicErrorToast)
+            .finally(()=>{
+                setWait(false);
+            });
+    }
+
+    const searchproduct = () => {
+        setWait(true);
+        axios.get(`${url}/report/product`)
             .then(value => {
                 basicSuccessMessage('reporte generado');
             })
@@ -25,10 +37,17 @@ const ClientAgent = () => {
             onClick={searchClientAgent}
             disabled={wait}
         >
-            Generar
+            Catalogos de Agentes
+        </button>
+        <button
+            className={className.generateButton}
+            onClick={searchproduct}
+            disabled={wait}
+        >
+            Catalogos de Productos
         </button>
     </div>
     );
 }
 
-export default ClientAgent;
+export default Catalog;
