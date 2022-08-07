@@ -75,22 +75,30 @@ const CreateSell = (props) => {
         }
         
         if(!hasError) {
+            const paymentVal = Number(payment);
             const sell = {
                 client: client.id,
                 clientName: client.nombre,
                 agent: client.agente.name,
-                dateSell,
-                payment: Number(payment), 
+                date:dateSell,
+                payment: paymentVal, 
                 total, 
                 list,
                 delivered,
                 invoice,
-                paymentType: paymentType? '1': '0'
+                paymentType: paymentType? 'True': 'False'
             };
             axios.post(`${url}/sell`,sell)
                 .then((value)=> {
                     basicSuccessMessage(`se registro la venta`);
-                    sell['id'] = value.data; 
+                    sell['id'] = value.data;
+                    if(paymentVal){
+                        sell['paymentHistory'] = [{
+                            amount:paymentVal,
+                            paymentType:paymentType?'True':'False',
+                            date: new Date().toLocaleDateString('fr-CA',{  year: 'numeric', month: '2-digit', day: '2-digit' })
+                        }]
+                    } 
                     props.onCompleteCallBack(sell);
                 })
                 .catch((error) => {
