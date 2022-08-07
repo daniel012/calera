@@ -3,6 +3,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import DebitBalance from './DebitBalance';
 import Sells from './Sells';
 import Catalog from './Catalog';
+import ClientStatic from './ClientStatic';
 
 const Reports = () => (
   <Tabs>
@@ -20,7 +21,7 @@ const Reports = () => (
       <Sells />
     </TabPanel>
     <TabPanel>
-      <h2>Any content 3</h2>
+      <ClientStatic />
     </TabPanel>
     <TabPanel>
       <Catalog />

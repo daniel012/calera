@@ -35,7 +35,7 @@ const SearchSell = (props) => {
     const updateDeliver = () => {
         sell && axios.put(`${url}/sell/deliver/${sell.id}`).then(value => {
           basicSuccessMessage('venta actualizada');
-          setSell({...sell, delivered:true});
+          setSell({...sell, delivered:'True'});
         }).catch(basicErrorToast);
       }
 
@@ -83,8 +83,8 @@ const SearchSell = (props) => {
                     <label>Agente: <b>{sell.agent}</b></label> 
                     <ListProducts list={sell.list} totalDebt={sell.total} payment={sell.payment} addNewPayment={addNewPayment}/>
                     <label>Factura: <b>{sell.invoice}</b></label>
-                    <label><b>{sell.delivered? 'Productos entregados': 'Productos no entregados'}</b> </label> 
-                    {!sell.delivered && <><input type={'button'} value={"Productos entregados"} onClick={updateDeliver} /></>}
+                    <label><b>{sell.delivered === 'True'? 'Productos entregados': 'Productos no entregados'}</b> </label> 
+                    {sell.delivered !== 'True' && <input type={'button'} value={"Productos entregados"} onClick={updateDeliver} />}
                 </div>
                 {sell.paymentHistory && <PaymentHistory history={sell.paymentHistory} />}
 
