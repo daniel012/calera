@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
 
-export const url = 'http://192.168.0.191:5000';
+export const url = 'http://localhost:5000';
 
 export const basicErrorToast = (error, msj = 'Error: contacta al administrador' ) => {
     toast(msj,{
