@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { basicErrorToast, basicSuccessMessage, url } from '../../utils';
+import { basicErrorToast, basicSuccessMessage, basicWarningMessage, url } from '../../utils';
 import axios from 'axios';
 import {getClientAgent}from './indexClassName';
 
@@ -9,24 +9,35 @@ const ClientStatic = () => {
     const className = getClientAgent();
     const searchStaticClient = () => {
         setWait(true);
-        axios.get(`${url}/report/staticClient`)
-            .then(value => {
-                basicSuccessMessage('reporte generado');
-            })
-            .catch(basicErrorToast)
-            .finally(()=>{
+        axios.get(`${url}/client/${client}`)
+          .then(value=>{
+            console.table(value);
+            if(value.status === 200){
+                axios.get(`${url}/report/staticClient/${value.data[0].id}`)
+                .then(value => basicSuccessMessage('reporte generado'))
+                .catch(basicErrorToast)
+                .finally(()=> setWait(false));
+            } else if(value.status === 204) {
+                basicWarningMessage('cliente no encontrado');
                 setWait(false);
-            });
+            }
+          })
+          .catch(err => {
+            setWait(false);
+            basicErrorToast(err);
+        });
+        
     }
 
     return (
     <div className={className.container}>
         <div>
-        <label>cliente:</label>&nbsp;&nbsp;
+        <label>Correo de cliente:</label>&nbsp;&nbsp;
         <input
-            type={'text'}
+            type={'email'}
             value={client}
             onChange={(evt)=>{setClient(evt.target.value)}}
+            disabled={wait}
          />
          </div>
         <button
@@ -34,7 +45,7 @@ const ClientStatic = () => {
             onClick={searchStaticClient}
             disabled={wait || !client}
         >
-            Generar
+            {wait? 'Generando reporte':'Generar'}
         </button>
     </div>
     );
