@@ -11,7 +11,7 @@ const Reports = () => (
       <Tab>Saldo Deudor</Tab>
       <Tab>Cierre de Venta</Tab>
       <Tab>Estadistica Cliente</Tab>
-      <Tab>Catalogos</Tab>
+      <Tab>Otros reportes</Tab>
     </TabList>
 
     <TabPanel>

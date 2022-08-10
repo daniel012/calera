@@ -91,9 +91,10 @@ const CreateSell = (props) => {
             axios.post(`${url}/sell`,sell)
                 .then((value)=> {
                     basicSuccessMessage(`se registro la venta`);
-                    sell['id'] = value.data;
+                    sell['id'] = value.data.venta;
                     if(paymentVal){
                         sell['paymentHistory'] = [{
+                            id:value.data.pago,
                             amount:paymentVal,
                             paymentType:paymentType?'True':'False',
                             date: new Date().toLocaleDateString('fr-CA',{  year: 'numeric', month: '2-digit', day: '2-digit' })

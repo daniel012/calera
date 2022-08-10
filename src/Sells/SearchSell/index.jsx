@@ -39,6 +39,15 @@ const SearchSell = (props) => {
         }).catch(basicErrorToast);
       }
 
+      const paymentReport = async (id) => {
+        try{
+            await axios.put(`${url}/report/payment/${id}`);
+            basicSuccessMessage('comprobrante generado');
+        }catch(err) {
+            basicErrorToast(err)
+        }
+      }
+
       const addNewPayment = async (newPayment, paymentType) => {
         const payment = Number(newPayment); 
         
@@ -86,7 +95,7 @@ const SearchSell = (props) => {
                     <label><b>{sell.delivered === 'True'? 'Productos entregados': 'Productos no entregados'}</b> </label> 
                     {sell.delivered !== 'True' && <input type={'button'} value={"Productos entregados"} onClick={updateDeliver} />}
                 </div>
-                {sell.paymentHistory && <PaymentHistory history={sell.paymentHistory} />}
+                {sell.paymentHistory && <PaymentHistory history={sell.paymentHistory}  paymentReport={paymentReport} />}
 
             </div>}
         
