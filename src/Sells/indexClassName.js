@@ -210,4 +210,18 @@ export const sellViewContainer =  createUseStyles({
     }, paymentReportButton: {
         marginTop: '10px'
     }
+});
+
+export const getSellReport = createUseStyles({
+    container:{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'baseline',
+        margin: '20px 0px 0px 20px',
+        '& button[name= "reportButton"]': {
+            border: '1px solid #CACACA',
+            borderRadius: '5px',
+            height: '31px',
+        }
+    }
 })
