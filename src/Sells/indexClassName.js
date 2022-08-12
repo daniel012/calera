@@ -208,6 +208,6 @@ export const sellViewContainer =  createUseStyles({
             }
         }
     }, paymentReportButton: {
-        marginTop: '5px'
+        marginTop: '10px'
     }
 })
