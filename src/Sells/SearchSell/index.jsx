@@ -44,7 +44,7 @@ const SearchSell = (props) => {
       const paymentReport = async () => {
         try{
             setDisableReport(true);
-            await axios.put(`${url}/report/payment/${sell.id}`);
+            await axios.get(`${url}/report/payment/${sell.id}`);
             basicSuccessMessage('comprobrante generado');
         }catch(err) {
             basicErrorToast(err)

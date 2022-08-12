@@ -10,22 +10,16 @@ const [state, setState] = React.useState([
     key: 'selection'
   }
 ]);
-const [filter, setFilter] = React.useState(false);
+
+const onReport = () => {
+  console.log('guapo: ', state);
+}
 return (
 <div >
-  <div>
-    <label htmlFor='searchClient'>Buscar por cliente:</label>
-    <input type={'checkbox'} id='searchClient' checked={filter} onChange={()=> setFilter(!filter)} />
-  </div>
-  <div style={{display:filter?'block':'none'}}>
-    <label htmlFor='nameClient' >Cliente:</label>
-    <input type={'text'} id='nameClient' />
-  </div>
-  <div>
-    <button >Generar</button>
-  </div>
+  <label htmlFor='datesRange'>Rango de fecha</label>
   <div>
     <DateRangePicker
+      id={'datesRange'}
       onChange={item => setState([item.selection])}
       showSelectionPreview={true}
       moveRangeOnFirstSelection={false}
@@ -35,6 +29,7 @@ return (
       locale={es}
       />
   </div>
+  <button >Generar reporte</button>
 </div>
 );
 
