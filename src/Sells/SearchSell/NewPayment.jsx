@@ -26,7 +26,7 @@ const NewPayment = (props) => {
                 id="addPayment"
                 type={'number'}
                 min={0.1}
-                step={0.1}
+                step={0.01}
                 value={newPayment}
                 onChange={(evt)=> setNewPayment(evt.target.value)}
                 required

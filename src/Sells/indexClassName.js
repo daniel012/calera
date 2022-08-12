@@ -67,6 +67,8 @@ export const CreateSellStyle =  createUseStyles({
     },
     totalPrice:{
         display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'baseline',
         marginTop: '10px',
         marginLeft: '40px',
         fontWeight: 'bold'

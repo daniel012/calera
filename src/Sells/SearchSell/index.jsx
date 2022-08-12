@@ -39,9 +39,9 @@ const SearchSell = (props) => {
         }).catch(basicErrorToast);
       }
 
-      const paymentReport = async (id) => {
+      const paymentReport = async () => {
         try{
-            await axios.put(`${url}/report/payment/${id}`);
+            await axios.put(`${url}/report/payment/${sell.id}`);
             basicSuccessMessage('comprobrante generado');
         }catch(err) {
             basicErrorToast(err)

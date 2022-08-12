@@ -1,14 +1,14 @@
 import * as React from 'react';
 
-const PaymentHistory = ({history, paymentReport}) => {
+const PaymentHistory = ({history, paymentReport, idVenta}) => {
     const [disableReport, setDisableReport] = React.useState(false);
 
     if(history.length === 0) {
         return <></>
     }
-    const onclickReport = async (id) => {
+    const onclickReport = async () => {
         setDisableReport(true);
-        await paymentReport(id);
+        await paymentReport();
         setDisableReport(false);
     }
     return(
@@ -16,22 +16,13 @@ const PaymentHistory = ({history, paymentReport}) => {
             <label><b>Historial de pago</b></label>
             <table >
                 <tr>
-                    <th></th>
                     <th>Monto</th>
                     <th>Fecha</th>
                     <th>Tipo de pago</th>
                 </tr>
                 
-                    {history.map(({date, amount, paymentType, id}) => 
+                    {history.map(({date, amount, paymentType}) => 
                         (<tr>
-                            <td>
-                                <button
-                                    disabled={disableReport}
-                                    onClick={()=>onclickReport(id)}
-                                >
-                                    comprobrante
-                                </button>
-                            </td>
                             <td>{amount}</td>
                             <td>{date}</td>
                             <td>{ paymentType && paymentType.toLowerCase() === 'true' ?'Efectivo':'Credito'}</td>
@@ -39,6 +30,7 @@ const PaymentHistory = ({history, paymentReport}) => {
                     )}
                 
             </table>
+            <button disabled={disableReport} onClick={onclickReport} > generar reporte</button>
         </div>
     )
 
