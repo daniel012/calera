@@ -8,6 +8,8 @@ import axios from 'axios';
 
 const SearchSell = (props) => {
     const [sell, setSell] = React.useState(undefined);
+    const [disableReport, setDisableReport] = React.useState(false);
+
     const className = sellViewContainer();
     React.useEffect(()=>{
         if(props.sell){
@@ -41,10 +43,13 @@ const SearchSell = (props) => {
 
       const paymentReport = async () => {
         try{
+            setDisableReport(true);
             await axios.put(`${url}/report/payment/${sell.id}`);
             basicSuccessMessage('comprobrante generado');
         }catch(err) {
             basicErrorToast(err)
+        } finally{
+            setDisableReport(false);
         }
       }
 
@@ -94,6 +99,7 @@ const SearchSell = (props) => {
                     <label>Factura: <b>{sell.invoice}</b></label>
                     <label><b>{sell.delivered === 'True'? 'Productos entregados': 'Productos no entregados'}</b> </label> 
                     {sell.delivered !== 'True' && <input type={'button'} value={"Productos entregados"} onClick={updateDeliver} />}
+                    {sell.paymentHistory && <button disabled={disableReport} onClick={paymentReport} className={className.paymentReportButton} >generar reporte historial de pago</button>}
                 </div>
                 {sell.paymentHistory && <PaymentHistory history={sell.paymentHistory}  paymentReport={paymentReport} />}
 
