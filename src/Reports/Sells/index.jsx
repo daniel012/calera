@@ -20,8 +20,8 @@ const onReport = () => {
   const endParameter = startDate.getTime() !== endDate.getTime() ?`${endDate.toLocaleDateString('fr-CA',{  year: 'numeric', month: '2-digit', day: '2-digit'})}`:'';
   axios.post(`${url}/report/endSell`,
   {
-    startdate: startDate.toLocaleDateString('fr-CA',{  year: 'numeric', month: '2-digit', day: '2-digit'}),
-    endate: endParameter
+    startDate: startDate.toLocaleDateString('fr-CA',{  year: 'numeric', month: '2-digit', day: '2-digit'}),
+    endDate: endParameter
   })
   .then(value => {
     basicSuccessMessage('report generado')
