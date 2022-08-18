@@ -41,10 +41,14 @@ const SearchSell = (props) => {
         }).catch(basicErrorToast);
       }
 
-      const paymentReport = async () => {
+      const paymentReport = async () =>  await generateReport('/report/payment/');
+      
+      const sellAckReport = async () =>  await generateReport('/report/sellAck/');
+      
+      const generateReport = async (report) => {
         try{
             setDisableReport(true);
-            await axios.get(`${url}/report/payment/${sell.id}`);
+            await axios.get(`${url}${report}${sell.id}`);
             basicSuccessMessage('comprobrante generado');
         }catch(err) {
             basicErrorToast(err)
@@ -100,6 +104,7 @@ const SearchSell = (props) => {
                     <label><b>{sell.delivered === 'True'? 'Productos entregados': 'Productos no entregados'}</b> </label> 
                     {sell.delivered !== 'True' && <input type={'button'} value={"Productos entregados"} onClick={updateDeliver} />}
                     {sell.paymentHistory && <button disabled={disableReport} onClick={paymentReport} className={className.paymentReportButton} >generar reporte historial de pago</button>}
+                    <button disabled={disableReport} onClick={sellAckReport}>Generar comprobante de venta</button>
                 </div>
                 {sell.paymentHistory && <PaymentHistory history={sell.paymentHistory}  paymentReport={paymentReport} />}
 
