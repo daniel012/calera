@@ -96,7 +96,7 @@ const SearchSell = (props) => {
                     <label>Cliente: <b>{sell.clientName}</b></label>
                     <label>Agente: <b>{sell.agent}</b></label> 
                     <ListProducts list={sell.list} totalDebt={sell.total} payment={sell.payment} addNewPayment={addNewPayment}/>
-                    <label>Factura: <b>{sell.invoice}</b></label>
+                    {sell.invoice ? <label>Factura: <b>{sell.invoice}</b></label>: <label><b>Remision</b></label>}
                     <label><b>{sell.delivered === 'True'? 'Productos entregados': 'Productos no entregados'}</b> </label> 
                     {sell.delivered !== 'True' && <input type={'button'} value={"Productos entregados"} onClick={updateDeliver} />}
                     {sell.paymentHistory && <button disabled={disableReport} onClick={paymentReport} className={className.paymentReportButton} >generar reporte historial de pago</button>}
