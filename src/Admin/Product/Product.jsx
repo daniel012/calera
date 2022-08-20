@@ -7,10 +7,12 @@ const Product = (props) => {
     const [code, setCode] = React.useState('');
     const [name, setName] = React.useState('');
     const [description, setDescription] = React.useState('');
+    const [metric, setMetric] = React.useState('');
     const [amount, setAmount] = React.useState(0);
     const prevAmount = React.useRef(0);
     const [dateChange, setDateChange] = React.useState(new Date());
     const [productPrice, setProductPrice] = React.useState(0);
+    const [canEditAmount, setCanEditAmount] = React.useState(true);
 
 
 
@@ -24,6 +26,8 @@ const Product = (props) => {
         props.setIdCallBack('');
         setDateChange(new Date());
         setProductPrice(0);
+        setMetric('');
+        setCanEditAmount(true);
         prevAmount.current = 0;
     }
 
@@ -43,7 +47,8 @@ const Product = (props) => {
             description, 
             amount,
             productPrice,
-            'real_amount': amount
+            'real_amount': amount,
+            metric
         }
         if(isInputDateFuture(dateChange)){
             basicWarningMessage('no se puede usar fechas en el futuro');
@@ -88,15 +93,18 @@ const Product = (props) => {
             axios.get(`${url}/product/${evt.target.value}`)
             .then((value)=>{
                 if(value.status === 200 ) {
-                    setCode(value.data[0].code);
-                    setName(value.data[0].name);
-                    setDescription(value.data[0].description);
-                    setAmount(value.data[0].amount);
-                    props.setIdCallBack(value.data[0].id);
-                    setProductPrice(value.data[0].productPrice);
-                    prevAmount.current = value.data[0].amount;
+                    setCode(value.data.code);
+                    setName(value.data.name);
+                    setDescription(value.data.description);
+                    setAmount(value.data.amount);
+                    props.setIdCallBack(value.data.id);
+                    setProductPrice(value.data.productPrice);
+                    setMetric(value.data.metric);
+                    prevAmount.current = value.data.amount;
+                    setCanEditAmount(!value.data.hasSells);
                 } else {
                     props.setIdCallBack('');
+                    setCanEditAmount(true);
                 }
             }).catch((error)=> basicErrorToast(error));
         }
@@ -113,6 +121,11 @@ const Product = (props) => {
                 <label htmlFor='productName' >Nombre: </label>
                 <input type={'string'} 
                 required value={name} onChange={(evt)=> setName(evt.target.value)}/>
+            </div>
+            <div>
+                <label htmlFor='productName' >Unidad de medida: </label>
+                <input type={'string'} disabled={!canEditAmount}
+                required value={metric} onChange={(evt)=> setMetric(evt.target.value)}/>
             </div>
             <div>
                 <label htmlFor='productDescription' >Descripcion: </label>

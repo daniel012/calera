@@ -208,8 +208,11 @@ export const sellViewContainer =  createUseStyles({
             }
         }
     }, paymentReportButton: {
-        marginTop: '10px',
-        marginBottom: '10px'
+        marginTop: '5px',
+        marginBottom: '5px',
+        border: '1px solid #CACACA',
+        borderRadius: '5px',
+        height: '31px',
     }
 });
 

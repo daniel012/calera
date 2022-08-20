@@ -38,6 +38,7 @@ const CreateSell = (props) => {
                 unitPrice: Number(price), 
                 price: Number(Number(price)*Number(amount)).toFixed(2),
                 delivered: true,
+                metric: infoPro.metric
             }]);
             initState();                    
         }            
@@ -131,7 +132,7 @@ const CreateSell = (props) => {
                 axios.get(`${url}/product/${inputValue}`)
                     .then((value)=> {
                         if(value.status !== 204) {
-                            setInfoPro(value.data[0]);
+                            setInfoPro(value.data);
                         }else {
                             setInfoPro(undefined);
                         }
@@ -168,6 +169,8 @@ const CreateSell = (props) => {
                 <input disabled  value={infoPro? infoPro.productPrice:0}/>
                 <label>Cantidad disponible: </label>
                 <input disabled  value={infoPro ? infoPro.amount:0}/>
+                <label>Unidad de medida: </label>
+                <input disabled  value={infoPro ? infoPro.metric:''}/>
             </div>
             <div>
                 <label>Precio unitario: </label>

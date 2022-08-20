@@ -102,9 +102,9 @@ const SearchSell = (props) => {
                     <ListProducts list={sell.list} totalDebt={sell.total} payment={sell.payment} addNewPayment={addNewPayment}/>
                     {sell.invoice ? <label>Factura: <b>{sell.invoice}</b></label>: <label><b>Remision</b></label>}
                     <label><b>{sell.delivered === 'True'? 'Productos entregados': 'Productos no entregados'}</b> </label> 
-                    {sell.delivered !== 'True' && <input type={'button'} value={"Productos entregados"} onClick={updateDeliver} />}
+                    {sell.delivered !== 'True' && <input type={'button'} className={className.paymentReportButton} value={"Productos entregados"} onClick={updateDeliver} />}
                     {sell.paymentHistory && <button disabled={disableReport} onClick={paymentReport} className={className.paymentReportButton} >generar reporte historial de pago</button>}
-                    <button disabled={disableReport} onClick={sellAckReport}>Generar comprobante de venta</button>
+                    <button disabled={disableReport} onClick={sellAckReport} className={className.paymentReportButton}>Generar comprobante de venta</button>
                 </div>
                 {sell.paymentHistory && <PaymentHistory history={sell.paymentHistory}  paymentReport={paymentReport} />}
 

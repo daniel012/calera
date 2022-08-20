@@ -14,14 +14,16 @@ const ListProducts = (props) => {
                 <tr>
                     <th>Producto</th>
                     <th>Cantidad</th>
+                    <th>Unidad de medida</th>
                     <th>Precio</th>
                 </tr>
-                {elements.map(( {amount, product, unitPrice},index ) => {
+                {elements.map(( {amount, product, unitPrice, metric},index ) => {
                     return (
                         <tr>
                             <td>{product}</td>
                             <td>{amount}</td>
-                            <td>{unitPrice}</td>
+                            <td>{metric}</td>
+                            <td>$ {unitPrice}</td>
                         </tr>)    
                 })}
             </table>

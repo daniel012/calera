@@ -15,17 +15,19 @@ const ListProducts = (props) => {
             <tr>
                 <th>Producto</th>
                 <th>Cantidad</th>
+                <th>Unidad de medida</th>
                 <th>Precio unitario</th>
-                <th>Precio</th>
+                <th>Precio Total</th>
                 <th>Eliminar</th>
             </tr>
-            {elements.map(( {amount, product, unitPrice, price},index ) => {
+            {elements.map(( {amount, product, unitPrice, price, metric},index ) => {
                 totalPrice += Number(price);
                 return (
                     <tr>
                         <td>{product}</td>
                         <td>{amount}</td>
-                        <td>{unitPrice}</td>
+                        <td>{metric}</td>
+                        <td>$ {unitPrice}</td>
                         <td>$ {price}</td>
                         <td>
                             <img 

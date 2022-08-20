@@ -18,7 +18,7 @@ const PaymentHistory = ({history, paymentReport, idVenta}) => {
                 
                     {history.map(({date, amount, paymentType}) => 
                         (<tr>
-                            <td>{amount}</td>
+                            <td>$ {amount}</td>
                             <td>{date}</td>
                             <td>{ paymentType && paymentType.toLowerCase() === 'true' ?'Efectivo':'Credito'}</td>
                         </tr>)

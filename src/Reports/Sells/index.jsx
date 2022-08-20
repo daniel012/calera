@@ -7,6 +7,7 @@ import { getSellReport } from '../../Sells/indexClassName';
 
 const Sells = () => {
 const className = getSellReport();
+const [disable, setDisable] = React.useState(false);
 const [state, setState] = React.useState([
   {
     startDate: new Date(),
@@ -18,6 +19,7 @@ const [state, setState] = React.useState([
 const onReport = () => {
   const {startDate, endDate} =state[0];
   const endParameter = startDate.getTime() !== endDate.getTime() ?`${endDate.toLocaleDateString('fr-CA',{  year: 'numeric', month: '2-digit', day: '2-digit'})}`:'';
+  setDisable(true);
   axios.post(`${url}/report/endSell`,
   {
     startDate: startDate.toLocaleDateString('fr-CA',{  year: 'numeric', month: '2-digit', day: '2-digit'}),
@@ -25,7 +27,8 @@ const onReport = () => {
   })
   .then(value => {
     basicSuccessMessage('report generado')
-  }).catch(basicErrorToast);
+  }).catch(basicErrorToast)
+  .finally(()=> setDisable(false));
 }
 return (
 <div className={className.container}>
@@ -42,7 +45,7 @@ return (
       locale={es}
       />
   </div>
-  <button  name='reportButton' onClick={onReport}>Generar reporte</button>
+  <button disabled={disable} name='reportButton' onClick={onReport}>Generar reporte</button>
 </div>
 );
 

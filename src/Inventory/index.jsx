@@ -23,14 +23,16 @@ const Inventory = () => {
                 <tr>
                     <th>Codigo</th>
                     <th>Cantidad</th>
+                    <th>Unidad de medida</th>
                     <th>Nombre</th>
                     <th>Precio sugerido</th>
                 </tr>
-                {element.length !== 0 && element.map(( {code ,amount, name, productPrice}) => {
+                {element.length !== 0 && element.map(( {code ,amount, name, productPrice, metric}) => {
                     return (
                         <tr>
                             <td>{code}</td>
                             <td>{amount}</td>
+                            <td>{metric}</td>
                             <td>{name}</td>
                             <td>{productPrice}</td>
                         </tr>)    
