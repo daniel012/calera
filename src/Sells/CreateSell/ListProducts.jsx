@@ -42,8 +42,7 @@ const ListProducts = (props) => {
         </table>
     </div>
     <div className={className.totalPrice}>
-        <label>Sub Total: $ {totalPrice}</label>
-        <label>Total: $ {Number(totalPrice * 1.16)}</label>
+        <label>Total: $ {totalPrice}</label>
     </div>
     </>
  )   

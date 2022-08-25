@@ -59,13 +59,13 @@ const CreateSell = (props) => {
         setList(oldList);
     }
     const onComplete = () => {
-        let subTotal = 0; 
+        let total = 0; 
         for(const ele of list) {
-            subTotal += parseFloat(ele.price);
+            total += parseFloat(ele.price);
         }
         let hasError = false; 
 
-        if(payment > subTotal) {
+        if(payment > total) {
             basicWarningMessage('la cantidad a pagar no puede ser mayor que el monto de la venta')
             hasError = true;
         } 
@@ -83,8 +83,7 @@ const CreateSell = (props) => {
                 agent: client.agente.name,
                 date:dateSell,
                 payment: paymentVal, 
-                total: Number(subTotal * 1.16),
-                subTotal, 
+                total,
                 list,
                 delivered,
                 invoice,
