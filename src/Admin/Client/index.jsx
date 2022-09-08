@@ -85,9 +85,8 @@ const Client = () => {
     const delteAgent = () => {setInfoAgent(''); setAgent('');}
 
     const searchClient = () => {
-        if(email) {
-
-            axios.get(`${url}/client/${email}`)
+        if(name) {
+            axios.get(`${url}/client/${name}`)
             .then((value)=> {
                 if(value.status === 200){
                     setName(value.data[0].nombre);
@@ -96,18 +95,22 @@ const Client = () => {
                     setEmail(value.data[0].correo);
                     setInfoAgent(value.data[0].agente);
                     setId(value.data[0].id);
-                } 
-            }).catch((error)=> {
-                console.error('error: ',error);
-            });
+                } else if(value.status === 204) {
+                    setId('');
+                }
+            }).catch((error)=> basicWarningMessage(error));
         }
     }
 
     return(
         <form  onSubmit={submitFrom} className={className.container}>
         <div>
+            <label htmlFor='clientName' >Nombre: </label>
+            <input type={'text'} required id='clientName' value={name} onBlur={searchClient} onChange={(evt)=> setName(evt.target.value)} />
+        </div>
+        <div>
             <label htmlFor='clientEmail' >Correo: </label>
-            <input type={'email'} required id='clientEmail' onBlur={searchClient}  value={email} onChange={(evt)=> setEmail(evt.target.value)}/>
+            <input type={'email'} required id='clientEmail' value={email} onChange={(evt)=> setEmail(evt.target.value)}/>
         </div>
         <div style={{
             display: 'flex'
@@ -131,10 +134,6 @@ const Client = () => {
                     <img alt='delete client' src="/delete.svg" onClick={delteAgent}></img>
                 </div>
             )}
-        </div>
-        <div>
-            <label htmlFor='clientName' >Nombre: </label>
-            <input type={'text'} required id='clientName' value={name} onChange={(evt)=> setName(evt.target.value)} />
         </div>
         <div>
             <label htmlFor='clientRFC' >RFC: </label>

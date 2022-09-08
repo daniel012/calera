@@ -13,7 +13,7 @@ const SearchClient =( props) => {
     if(!!props.client){
         return (
         <div className={className.displayClient}> 
-            <label>Cliente: {props.client.correo}</label>
+            <label>Cliente: {props.client.nombre}</label>
             <img alt='delete client' src="/delete.svg" onClick={delteClient}></img>
         </div>
         );
@@ -37,7 +37,7 @@ const SearchClient =( props) => {
         <form onSubmit={onSearch}>
             <div className={className.searchClient}>
                 <label htmlFor='searchClient'>Cliente:</label>
-                <input type={'email'} id='searchClient' required />
+                <input type={'text'} id='searchClient' required />
                 <button type='submit'>Buscar</button>
             </div>
         </form>
