@@ -4,6 +4,7 @@ import { CreateSellStyle } from'../indexClassName';
 import SearchClient from './searchClient';
 import { basicErrorToast,basicWarningMessage, basicSuccessMessage, isInputDateFuture, url } from '../../utils';
 import axios from 'axios';
+import LoadingSpinner from '../../spinner';
 
 const CreateSell = (props) => {
     const [amount, setAmount] = React.useState(0);
@@ -17,6 +18,7 @@ const CreateSell = (props) => {
     const [dateSell, setDateSell] = React.useState(undefined);
     const [invoice, setInvoice] = React.useState('');
     const [paymentType, setPaymentType] = React.useState(true);
+    const [clients, setClients] = React.useState(undefined);
 
     React.useEffect(()=> props.onOpenTab(), []);
 
@@ -79,7 +81,7 @@ const CreateSell = (props) => {
             const paymentVal = Number(payment);
             const sell = {
                 client: client.id,
-                clientName: client.nombre,
+                clientName: client.label,
                 agent: client.agente.name,
                 date:dateSell,
                 payment: paymentVal, 
@@ -145,13 +147,36 @@ const CreateSell = (props) => {
         
     }
     const className = CreateSellStyle();
+
+    const searchAllClients = async () => {
+        try{
+            const value = await axios.get(`${url}/client/`);
+            if(value.status === 204){
+                basicWarningMessage('no hay clientes registrados');
+                setClients([]);
+            } else {
+                setClients(value.data.map(ele => ({'id':ele['id'],'label':ele['nombre'],'agente':ele['agente']})));
+            }
+        } catch(e){
+            basicErrorToast(e);
+        }
+    }
+    React.useEffect(()=>{
+        searchAllClients();
+    },[]);
+
+    if(clients === undefined){
+        return <LoadingSpinner />
+    }
+
     return(
     <div>
-        <div className={className.clientAndDate}>
-            <SearchClient 
+        <SearchClient 
                 onSearchClientCallBack={setClient}
                 client={client}
+                allClients={clients}
             />
+    <div className={className.clientAndDate}>
             <div>
                 <label htmlFor='dateSell'>Fecha de venta: </label>
                 <input id='dateSell' type={'date'}  value={dateSell} onChange={(evt)=> setDateSell(evt.target.value)}/>

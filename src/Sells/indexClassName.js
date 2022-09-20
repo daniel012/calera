@@ -34,15 +34,13 @@ export const CreateSellStyle =  createUseStyles({
     },
     searchClient: {
         display: 'flex',
-        marginLeft: '40px',
+        height: '30px',
         marginTop: '20px',
+        marginLeft: '41px',
         '& input': {
-            margin: '0px 10px',
             width: '194px',
             border: '1px solid #CACACA',
             borderRadius: '5px',
-            height: '31px',
-            paddingLeft: '10px'
         },
         '& label':{
             paddingRight: '45px'
@@ -77,6 +75,8 @@ export const CreateSellStyle =  createUseStyles({
         cursor: 'pointer',
     },
     displayClient: {
+        marginTop: '20px',
+        marginLeft: '41px',
         display: 'flex',
         width: '382px',
         '& img':{
