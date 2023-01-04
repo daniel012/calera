@@ -150,7 +150,7 @@ const CreateSell = (props) => {
 
     const searchAllClients = async () => {
         try{
-            const value = await axios.get(`${url}/client/`);
+            const value = await axios.get(`${url}/client`);
             if(value.status === 204){
                 basicWarningMessage('no hay clientes registrados');
                 setClients([]);

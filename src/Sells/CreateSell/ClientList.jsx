@@ -16,7 +16,7 @@ export const ClientList = (props) => {
       <Menu {...menuProps}
       style={{backgroundColor:'white', width:'500px', textAlign:'left', position:'relative'}}
       >
-        <List
+        {results.length > 0 && <List
           scrollToIndex={props.activeIndex || 0}
           scrollToAlignment="auto"
           height={results.length < 5 ? results.length * itemHeight : 300}
@@ -31,13 +31,13 @@ export const ClientList = (props) => {
               </MenuItem>
             );
           }}
-        />
+        />}
       </Menu>
     );
   });
   return (
     <Typeahead
-      maxResults={false}
+      maxResults={10}
       options={props.options}
       paginate={false}
       placeholder="Seleccione un cliente"
