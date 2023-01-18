@@ -198,9 +198,9 @@ const CreateSell = (props) => {
             </div>
             <div>
                 <label>Precio unitario: </label>
-                <input type={'number'} min={1} step={0.1} value={price} onChange={(evt)=> setPrice(evt.target.value)}/>
+                <input type={'number'} min={0.01} step={0.01} value={price} onChange={(evt)=> setPrice(evt.target.value)}/>
                 <label htmlFor='amount'>Cantidad:</label>
-                <input type={'number'} id="amount" min={1} step={0.1} value={amount} onChange={(evt) =>{ setAmount(evt.target.value)}} />
+                <input type={'number'} id="amount" min={0.001} step={0.001} value={amount} onChange={(evt) =>{ setAmount(evt.target.value)}} />
             </div>        
             <button type='submit'disabled={!infoPro || !price || !amount } className={className.buttonAdd} >Agregar</button>
         </div>

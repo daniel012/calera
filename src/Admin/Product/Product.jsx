@@ -137,7 +137,7 @@ const Product = (props) => {
             </div>
             <div>
                 <label htmlFor='productPrice' >Precio sugerido de venta: </label>
-                <input type={'number'} required id='productPrice' step={0.1} min={0}  value={productPrice} onChange={(evt)=> setProductPrice(evt.target.value)}/>
+                <input type={'number'} required id='productPrice' step={0.01} min={0}  value={productPrice} onChange={(evt)=> setProductPrice(evt.target.value)}/>
             </div>
             <div>
                 <label htmlFor='dateChange' >Fecha de modificacion: </label>
