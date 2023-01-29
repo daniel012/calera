@@ -131,7 +131,7 @@ const Client = () => {
                     <label style={{
                         width: 'fit-content'
                     }}>{infoAgent.email}</label>
-                    <img alt='delete client' src="/delete.svg" onClick={delteAgent}></img>
+                    {id? (<button style={{marginLeft:"20px"}} type="button" onClick={delteAgent}>cambiar agente</button>):(<img alt='delete client' src="/delete.svg" onClick={delteAgent}></img>)}
                 </div>
             )}
         </div>
