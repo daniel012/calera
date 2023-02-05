@@ -35,7 +35,8 @@ const NewPayment = (props) => {
             <input 
                 id='paymentType'
                 type={'checkbox'}
-                checked={paymentType}
+                checked={true}
+                disabled
                 onChange={()=> setPaymentType(!paymentType)}
             /> 
 
