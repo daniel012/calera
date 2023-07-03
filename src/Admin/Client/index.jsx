@@ -1,6 +1,7 @@
 import * as React from 'react';
 import axios from 'axios';
 import { clientStyle } from '../indexClassName';
+import {AgentSearch} from './AgentSearch';
 import PhoneInput from 'react-phone-input-2';
 import { basicErrorToast,basicWarningMessage, basicSuccessMessage, url } from '../../utils';
 
@@ -119,11 +120,10 @@ const Client = () => {
                 textAlign: 'left'
             }} htmlFor='clientAgent' >Correo de agente: </label>
             {infoAgent === '' ? (<>
-                <input required id='clientAgent' type={'email'} value={agent} onChange={(e)=>setAgent(e.target.value)}/>
-                <button onClick={searchAgent} style={{
-                    marginLeft: '10px'
-                    }}>Validar
-                </button>
+                <AgentSearch
+                    agent={agent}
+                    onSetAgent={(value) => setAgent(value)}
+                />
             </>):(
                 <div style={{
                     display: 'flex'
