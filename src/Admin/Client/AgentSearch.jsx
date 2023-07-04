@@ -33,7 +33,7 @@ export const  AgentSearch =( props) => {
     }
     
     return(
-        <div className={className.searchClient}>
+        <div className={`${className.testingDaniel}`}>
             <AgentList options={agents}  callback={props.onSetAgent} />
         </div>
         );

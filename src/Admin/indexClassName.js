@@ -1,13 +1,14 @@
 import {createUseStyles} from 'react-jss'
 
 export const clientStyle =  createUseStyles({
+
     container:{
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'baseline',
         paddingLeft: '50px',
         paddingTop: '20px',
-        '& div':{
+        '& div ':{
             padding: '5px 0',
         },
         '& div label':{
@@ -52,6 +53,12 @@ export const mainWrapper =  createUseStyles({
 
 
 export const CreateSellStyle =  createUseStyles({
+    testingDaniel:{
+        padding: '0 !important',
+        '& div': {
+            padding: '0 !important',
+        }
+    },
     containerButton:{
         display: 'flex',
         flexDirection: 'column',
@@ -86,8 +93,6 @@ export const CreateSellStyle =  createUseStyles({
     searchClient: {
         display: 'flex',
         height: '30px',
-        marginTop: '20px',
-        marginLeft: '41px',
         '& input': {
             width: '194px',
             border: '1px solid #CACACA',
@@ -126,10 +131,11 @@ export const CreateSellStyle =  createUseStyles({
         cursor: 'pointer',
     },
     displayClient: {
-        marginTop: '20px',
-        marginLeft: '41px',
         display: 'flex',
         width: '382px',
+        '& label': {
+            width: 'fit-content !important',
+        },
         '& img':{
             paddingLeft: '14px',
         }

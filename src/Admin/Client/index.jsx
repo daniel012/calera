@@ -8,7 +8,6 @@ import { basicErrorToast,basicWarningMessage, basicSuccessMessage, url } from '.
 const Client = () => {
     const [phone, setPhone] = React.useState('52');
     const [agent, setAgent] = React.useState('');
-    const [infoAgent, setInfoAgent] = React.useState('');
     const [name, setName] = React.useState('');
     const [rfc, setRFC] = React.useState('');
     const [email, setEmail] = React.useState('');
@@ -27,7 +26,6 @@ const Client = () => {
     const showSuccess = () => {
         basicSuccessMessage(`Cliente ${name} ${id?'actualizado':'insertado'}`);
         setId('');
-        setInfoAgent('');
         setAgent('');
         setPhone('52');
         setName('');
@@ -43,15 +41,12 @@ const Client = () => {
             hasError = true; 
             basicWarningMessage('Numero incorrecto');
         }
-        if(!infoAgent) {
-            hasError = true;
-            basicWarningMessage('Validar agente');
-        }
+    
         if( !hasError ) {
             if(!id) {
                 axios.post(`${url}/client`,{            
                     "correo": email,
-                    "correoAgente": infoAgent.email,
+                    "agentId": agent.id,
                     "nombre": name,
                     "rfc":rfc,
                     "telefono":phone
@@ -61,7 +56,7 @@ const Client = () => {
             } else {
                 axios.put(`${url}/client/${id}`,{            
                     "correo": email,
-                    "idagente": infoAgent.id,
+                    "idagente": agent.id,
                     "nombre": name,
                     "rfc":rfc,
                     "telefono":phone
@@ -72,18 +67,6 @@ const Client = () => {
             
         }
     } 
-    const searchAgent = (evt) => {
-        evt.preventDefault();
-        axios.get(`${url}/agent/${agent}`).then((value)=> {
-            if(value.data.length !== 0){
-                setInfoAgent(value.data[0]);
-            } else {
-                basicWarningMessage('Agente no encontrado');
-            }
-        }).catch((error)=> basicErrorToast(error,'Error en busqueda de agente'));
-    }
-
-    const delteAgent = () => {setInfoAgent(''); setAgent('');}
 
     const searchClient = () => {
         if(name) {
@@ -94,7 +77,9 @@ const Client = () => {
                     setRFC(value.data[0].rfc);
                     setPhone(value.data[0].telefono);
                     setEmail(value.data[0].correo);
-                    setInfoAgent(value.data[0].agente);
+                    setAgent(()=> {
+                        return {'id': value.data[0].agente.id, 'label':value.data[0].agente.name}
+                    });
                     setId(value.data[0].id);
                 } else if(value.status === 204) {
                     setId('');
@@ -119,21 +104,10 @@ const Client = () => {
             <label style={{
                 textAlign: 'left'
             }} htmlFor='clientAgent' >Correo de agente: </label>
-            {infoAgent === '' ? (<>
-                <AgentSearch
-                    agent={agent}
-                    onSetAgent={(value) => setAgent(value)}
-                />
-            </>):(
-                <div style={{
-                    display: 'flex'
-                }}>
-                    <label style={{
-                        width: 'fit-content'
-                    }}>{infoAgent.email}</label>
-                    {id? (<button style={{marginLeft:"20px"}} type="button" onClick={delteAgent}>cambiar agente</button>):(<img alt='delete client' src="/delete.svg" onClick={delteAgent}></img>)}
-                </div>
-            )}
+            <AgentSearch
+                agent={agent}
+                onSetAgent={(value) => setAgent(value)}
+            />
         </div>
         <div>
             <label htmlFor='clientRFC' >RFC: </label>
